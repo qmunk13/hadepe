@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { CatalogSection } from './components/CatalogSection';
@@ -85,24 +85,54 @@ export default function App() {
     localStorage.setItem('hasan_settings_v2', JSON.stringify(settings));
   }, [settings]);
 
-  // Sinkronkan data produk pohon & kontak dari Google Spreadsheet saat awal dibuka oleh pengunjung
-  useEffect(() => {
-    if (AppDataService.getGasUrl()) {
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  const syncLatestDataFromSheets = useCallback(async () => {
+    if (!AppDataService.getGasUrl()) return;
+    setIsSyncing(true);
+    try {
       // 1. Ambil kontak & WhatsApp terbaru dari Google Sheets
-      AppDataService.syncSettingsFromGoogleSheets().then(res => {
-        if (res.success && res.settings) {
-          setSettings(res.settings);
-        }
-      }).catch(err => console.warn('Sync settings error on mount:', err));
+      const resSettings = await AppDataService.syncSettingsFromGoogleSheets();
+      if (resSettings.success && resSettings.settings) {
+        setSettings(resSettings.settings);
+      }
 
       // 2. Ambil katalog produk pohon terbaru langsung dari Google Spreadsheet
-      AppDataService.syncKatalogPohonFromGoogleSheets().then(res => {
-        if (res.success && res.products && res.products.length > 0) {
-          setProducts(res.products);
-        }
-      }).catch(err => console.warn('Sync katalog error on mount:', err));
+      const resKatalog = await AppDataService.syncKatalogPohonFromGoogleSheets();
+      if (resKatalog.success && resKatalog.products && resKatalog.products.length > 0) {
+        setProducts(resKatalog.products);
+      }
+    } catch (err) {
+      console.warn('Real-time sync error:', err);
+    } finally {
+      setIsSyncing(false);
     }
   }, []);
+
+  // Sinkronkan data produk pohon & kontak dari Google Spreadsheet saat awal dibuka & berkala
+  useEffect(() => {
+    syncLatestDataFromSheets();
+
+    // Auto-sync setiap 60 detik agar pengunjung & pemilik toko selalu melihat data terbaru secara real-time
+    const interval = setInterval(() => {
+      syncLatestDataFromSheets();
+    }, 60000);
+
+    // Auto-sync saat tab browser kembali aktif (pengunjung beralih ke tab website)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        syncLatestDataFromSheets();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleVisibilityChange);
+    };
+  }, [syncLatestDataFromSheets]);
 
   // 2. View & Modal States
   const [activeView, setActiveView] = useState<'public' | 'admin'>('public');
@@ -187,6 +217,8 @@ export default function App() {
             onOpenReservationWithProduct={(p) => handleOpenReservation(p)}
             onSelectProduct={(p) => setSelectedProduct(p)}
             onZoomImage={(url, title) => setZoomImage({ url, title })}
+            isSyncing={isSyncing}
+            onRefresh={syncLatestDataFromSheets}
           />
 
           {/* How to Order & FAQs */}

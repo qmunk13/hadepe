@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, MessageCircle, Eye, SlidersHorizontal } from 'lucide-react';
+import { Search, MessageCircle, Eye, SlidersHorizontal, RefreshCw } from 'lucide-react';
 import { ProductItem, StoreSettings } from '../types';
 
 interface CatalogSectionProps {
@@ -8,6 +8,8 @@ interface CatalogSectionProps {
   onOpenReservationWithProduct: (product: ProductItem) => void;
   onSelectProduct: (product: ProductItem) => void;
   onZoomImage: (imageUrl: string, title: string) => void;
+  isSyncing?: boolean;
+  onRefresh?: () => void;
 }
 
 export const CatalogSection: React.FC<CatalogSectionProps> = ({
@@ -15,7 +17,9 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
   settings,
   onOpenReservationWithProduct,
   onSelectProduct,
-  onZoomImage
+  onZoomImage,
+  isSyncing,
+  onRefresh
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('SEMUA');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -61,10 +65,32 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <span className="text-xs text-slate-500 font-medium">
               Menampilkan <span className="font-bold text-slate-800 tabular-nums">{filteredProducts.length}</span> dari <span className="font-bold text-slate-800 tabular-nums">{products.length}</span> koleksi
             </span>
+
+            {onRefresh && (
+              <div className="flex items-center gap-1.5">
+                {isSyncing ? (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <RefreshCw className="w-3 h-3 animate-spin text-emerald-600" />
+                    Menyinkronkan Sheets...
+                  </span>
+                ) : (
+                  <button
+                    onClick={onRefresh}
+                    type="button"
+                    title="Perbarui data produk & kontak langsung dari Google Spreadsheet"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 shadow-2xs hover:text-teal-800 transition cursor-pointer"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <RefreshCw className="w-3 h-3 text-teal-700" />
+                    <span>Real-time Sheets</span>
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
