@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hasan Dekor Pohon - Katalog Pohon & Reservasi WhatsApp</title>
+  <meta name="description" content="Penyewaan pohon artifisial eksklusif, tanaman dekorasi pelaminan, photobooth wedding, dan event bergengsi dengan reservasi langsung via WhatsApp." />
+  
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-teal-700 selection:text-white font-sans min-h-screen flex flex-col">
+
+  <!-- ========================================== -->
+  <!-- NAVBAR PUBLIK -->
+  <!-- ========================================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-8">
+      
+      <!-- Brand Logo -->
+      <a href="#beranda" class="flex items-center gap-2.5 text-slate-900 hover:text-teal-900 transition-colors shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-teal-800 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+          🌿
+        </div>
+        <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-slate-900 whitespace-nowrap">
+          Hasan Dekor Pohon
+        </span>
+      </a>
+
+      <!-- Menu Navigasi -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
+        <a href="#katalog" class="hover:text-teal-800 transition-colors whitespace-nowrap">Katalog Pohon</a>
+        <a href="#cara-sewa" class="hover:text-teal-800 transition-colors whitespace-nowrap">Cara Reservasi</a>
+        <a href="#tentang" class="hover:text-teal-800 transition-colors whitespace-nowrap">Tentang & Lokasi</a>
+        <a href="https://wa.me/628119500890?text=Halo%20Hasan%20Dekor,%20saya%20ingin%20tanya%20sewa%20pohon%20pelaminan" target="_blank" class="flex items-center gap-1.5 text-emerald-700 hover:text-emerald-800 font-semibold transition-colors whitespace-nowrap">
+          <span>💬 Chat WhatsApp</span>
+        </a>
+      </nav>
+
+      <!-- Tombol Utama Reservasi -->
+      <div class="flex items-center gap-3 shrink-0">
+        <button onclick="bukaModalReservasi()" class="flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-95 rounded-xl shadow-sm transition-all whitespace-nowrap cursor-pointer">
+          <span>💬 Pesan via WhatsApp</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- HERO BANNER -->
+  <!-- ========================================== -->
+  <section id="beranda" class="relative overflow-hidden bg-gradient-to-b from-stone-100/80 via-white to-slate-50 border-b border-slate-200/80 pt-10 pb-16 lg:pt-14 lg:pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 border border-teal-200/70 text-teal-800 text-xs font-semibold rounded-lg">
+            <span>✨ Showcase Koleksi Pohon Dekorasi Wedding 2026</span>
+          </div>
+
+          <h1 class="font-serif text-3xl sm:text-5xl lg:text-[3.25rem] font-bold text-slate-900 tracking-tight leading-[1.15]">
+            Penyewaan Pohon Artifisial & <span class="text-teal-800 underline decoration-teal-300 decoration-wavy decoration-1">Dekorasi Pelaminan</span>
+          </h1>
+
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-xl">
+            Menghadirkan keindahan alami pohon maple merah autumn, beringin putih pelaminan, sakura mekar Jepang, dan palem tropis rimbun untuk pernikahan, photobooth, lamaran, dan event bergengsi. Sistem pemesanan online instan terhubung langsung ke WhatsApp.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a href="#katalog" class="px-6 py-3.5 bg-teal-800 hover:bg-teal-900 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md transition-all flex items-center gap-2">
+              <span>Jelajahi Katalog Pohon</span>
+              <span>&rarr;</span>
+            </a>
+            <a href="https://wa.me/628119500890?text=Halo%20Hasan%20Dekor,%20saya%20ingin%20konsultasi%20sewa%20pohon%20dekorasi" target="_blank" class="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md transition-all flex items-center gap-2">
+              <span>💬 Konsultasi via WhatsApp</span>
+            </a>
+          </div>
+
+          <div class="pt-4 border-t border-slate-200/80 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-600 font-medium">
+            <div>✓ 100% Batang Kayu Asli</div>
+            <div>✓ Siap Antar & Pasang di Venue</div>
+            <div>✓ Respon Cepat 24 Jam via WA</div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/70 bg-slate-900">
+            <img src="/src/assets/images/hero_wedding_tree_decor_1792371617920.jpg" alt="Dekorasi pohon artifisial pelaminan" class="w-full h-[360px] sm:h-[420px] object-cover" onerror="this.src='https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80'" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-6 sm:p-8 text-white">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-teal-300">Koleksi Panggung Pelaminan</span>
+              <h3 class="font-serif text-lg sm:text-xl font-bold mt-1 text-white">Instalasi Pohon Raksasa Ballroom & Photobooth</h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- KATALOG PRODUK POHON (BEBAS HARGA) -->
+  <!-- ========================================== -->
+  <section id="katalog" class="py-16 sm:py-20 bg-slate-50 border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <div class="text-xs uppercase tracking-widest text-teal-800 font-bold mb-1">Koleksi Eksklusif Hasan Dekor</div>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 tracking-tight">Katalog Pohon Artifisial & Tanaman Dekorasi</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-2 max-w-2xl leading-relaxed">
+            Semua unit dirawat higienis, berstruktur kokoh dengan batang kayu alami pilihan. Pilih pohon dekorasi favorit Anda untuk reservasi pemesanan via WhatsApp.
+          </p>
+        </div>
+
+        <div class="w-full sm:w-80">
+          <input type="text" id="cariPohon" oninput="filterPohon()" placeholder="🔍 Cari maple, sakura, beringin..." class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:border-teal-700 shadow-xs" />
+        </div>
+      </div>
+
+      <!-- Kategori Filter -->
+      <div class="flex flex-wrap items-center gap-2 mb-8" id="containerKategori">
+        <button onclick="setKategori('SEMUA')" id="kat-SEMUA" class="px-4 py-2 rounded-xl text-xs font-semibold bg-teal-800 text-white shadow-xs cursor-pointer">Semua Koleksi</button>
+        <button onclick="setKategori('Pohon Besar')" id="kat-Pohon Besar" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer">Pohon Besar</button>
+        <button onclick="setKategori('Pohon Sedang')" id="kat-Pohon Sedang" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer">Pohon Sedang</button>
+        <button onclick="setKategori('Pohon Karakter')" id="kat-Pohon Karakter" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer">Pohon Karakter</button>
+        <button onclick="setKategori('Tanaman Tropis')" id="kat-Tanaman Tropis" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer">Tanaman Tropis</button>
+      </div>
+
+      <!-- Grid Kartu Pohon -->
+      <div id="gridPohon" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"></div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- CARA RESERVASI & FAQ -->
+  <!-- ========================================== -->
+  <section id="cara-sewa" class="py-16 sm:py-20 bg-white border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <div class="text-xs uppercase tracking-widest text-teal-800 font-bold mb-1">Alur Booking Mudah</div>
+        <h2 class="text-2xl sm:text-4xl font-serif font-bold text-slate-900 tracking-tight">Cara Reservasi Pohon via WhatsApp</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+          Terintegrasi langsung dengan WhatsApp resmi Hasan Dekor untuk proses reservasi yang cepat dan transparan.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-2">
+          <div class="text-2xl font-black text-slate-300 font-mono">01</div>
+          <h3 class="font-serif font-bold text-slate-900 text-base">Pilih Koleksi Pohon</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Pilih jenis pohon yang cocok dengan tema dan dimensi panggung pelaminan Anda.</p>
+        </div>
+        <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-2">
+          <div class="text-2xl font-black text-slate-300 font-mono">02</div>
+          <h3 class="font-serif font-bold text-slate-900 text-base">Isi Formulir Reservasi</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Masukkan tanggal acara, nama gedung/venue, dan layanan pasang/bongkar yang dibutuhkan.</p>
+        </div>
+        <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-2">
+          <div class="text-2xl font-black text-slate-300 font-mono">03</div>
+          <h3 class="font-serif font-bold text-slate-900 text-base">Kirim via WhatsApp</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Rincian pesanan langsung tersusun otomatis ke WhatsApp admin Hasan Dekor untuk verifikasi stok.</p>
+        </div>
+        <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-2">
+          <div class="text-2xl font-black text-slate-300 font-mono">04</div>
+          <h3 class="font-serif font-bold text-slate-900 text-base">Pemasangan di Venue</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">Armada dan teknisi mengantar serta merakit pohon di venue pernikahan sebelum loading dock ditutup.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- TENTANG & LOKASI WORKSHOP -->
+  <!-- ========================================== -->
+  <section id="tentang" class="py-16 sm:py-20 bg-stone-50/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 space-y-4">
+          <div class="text-xs uppercase tracking-widest text-teal-800 font-bold">Workshop & Showroom Fisik</div>
+          <h3 class="font-serif font-bold text-2xl sm:text-3xl text-slate-900">Kunjungi Galeri Pohon Hasan Dekor</h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Anda dapat melihat langsung koleksi pohon artifisial, memilih variasi dahan dan jenis daun, atau berdiskusi langsung mengenai konsep pelaminan impian Anda.
+          </p>
+          <div class="space-y-2 text-xs text-slate-700">
+            <div>📍 <strong>Alamat:</strong> Jalan Pangeran Tubagus Angke No. 74, Jakarta 11330</div>
+            <div>⏰ <strong>Jam Buka:</strong> Senin - Minggu: 07.30 - 21.00 WIB (Fast Response 24 Jam via WhatsApp)</div>
+            <div>📞 <strong>Kontak WA:</strong> +62 811-9500-890</div>
+            <div>✉️ <strong>Email:</strong> hasandekorpohon@gmail.com</div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+          <div class="font-bold text-slate-900 text-xs">✨ Keunggulan Pohon Hasan Dekor:</div>
+          <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs">
+            <div class="font-bold text-slate-900">🌿 Batang Kayu Asli Terawat</div>
+            <div class="text-slate-500 text-[11px] mt-0.5">Rangka kayu hutan alami anti rayap dengan bobot stabil.</div>
+          </div>
+          <div class="p-3 bg-white rounded-xl border border-slate-200 text-xs">
+            <div class="font-bold text-slate-900">✨ Karpet Venue Bersih Bebas Rontok</div>
+            <div class="text-slate-500 text-[11px] mt-0.5">Daun silk & latex tebal tanpa serpihan debu mengotori panggung.</div>
+          </div>
+          <a href="https://wa.me/628119500890?text=Halo%20Hasan%20Dekor,%20saya%20ingin%20jadwalkan%20kunjungan%20ke%20workshop" target="_blank" class="block text-center py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl shadow-xs transition">
+            Jadwalkan Kunjungan ke Workshop &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- FOOTER -->
+  <!-- ========================================== -->
+  <footer class="bg-slate-900 text-white py-12 px-6 border-t border-slate-800 text-xs text-center text-slate-400">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div>&copy; 2026 Hasan Dekor Pohon. Spesialis Pohon Artifisial & Tanaman Dekorasi Pelaminan.</div>
+      <div class="flex items-center gap-4">
+        <a href="#katalog" class="hover:text-white transition">Katalog</a>
+        <a href="#cara-sewa" class="hover:text-white transition">Cara Reservasi</a>
+        <a href="#tentang" class="hover:text-white transition">Kontak</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- MODAL RESERVASI WHATSAPP -->
+  <!-- ========================================== -->
+  <div id="modalReservasi" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 my-8">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <div class="font-serif font-bold text-slate-900 text-base">🌿 Formulir Reservasi Pohon via WhatsApp</div>
+        <button onclick="tutupModalReservasi()" class="text-slate-400 hover:text-slate-700 text-lg">✕</button>
+      </div>
+
+      <form onsubmit="kirimReservasiWhatsApp(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Pilih Pohon yang Dipesan *</label>
+          <select id="resPilihPohon" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold"></select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Mulai Acara (Loading) *</label>
+            <input type="date" id="resTglMulai" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Selesai (Bongkar) *</label>
+            <input type="date" id="resTglSelesai" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">Nama Pemesan / WO *</label>
+            <input type="text" id="resNama" required placeholder="Ibu Diana / Mahkota WO" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1">No. WhatsApp *</label>
+            <input type="tel" id="resTelp" required placeholder="08123456xxxx" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Nama Gedung / Hotel / Venue *</label>
+          <input type="text" id="resVenue" required placeholder="Gedung Graha Sarina Vidi, Sleman" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Alamat Acara</label>
+          <input type="text" id="resAlamat" placeholder="Jl. Magelang KM 8, Mlati, Sleman" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
+        </div>
+
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
+          <span class="font-bold text-slate-800 block text-[11px]">Kebutuhan Layanan:</span>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="resSrvSetup" checked class="rounded text-teal-800 w-3.5 h-3.5" />
+            <span>Jasa Pasang & Bongkar Tim Teknisi Hasan Dekor</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="resSrvLighting" checked class="rounded text-teal-800 w-3.5 h-3.5" />
+            <span>Instalasi Spotlight LED & Fairy Light Pohon</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="resSrvTransport" checked class="rounded text-teal-800 w-3.5 h-3.5" />
+            <span>Pengantaran Khusus Truk Venue</span>
+          </label>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">Catatan Konsep / Waktu Loading</label>
+          <textarea id="resNotes" rows="2" placeholder="Tema adat jawa, loading dock jam 08.00 pagi..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl"></textarea>
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">
+            Kirim Reservasi ke WhatsApp Sekarang &rarr;
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    const POHON_DATA = [
+      {
+        code: 'PHN-001',
+        name: 'Pohon Maple Merah Autumn Raksasa',
+        category: 'Pohon Besar',
+        height: '2.8 - 3.2 Meter',
+        width: '2.4 Meter (Rimbun)',
+        trunk: 'Batang Kayu Kering Alami Dilapisi Anti Rayap',
+        desc: 'Pohon dekorasi ikonik dengan daun maple merah keemasan bergaya autumn fall yang sangat megah untuk center pelaminan panggung resepsi.',
+        img: '/src/assets/images/tree_maple_red_autumn_1792371618899.jpg'
+      },
+      {
+        code: 'PHN-002',
+        name: 'Pohon Beringin Putih Wedding Pelaminan',
+        category: 'Pohon Besar',
+        height: '3.0 - 3.5 Meter',
+        width: '2.8 Meter (Kanopi Melebar)',
+        trunk: 'Kayu Alami Keras Berakar Lilit Artistik',
+        desc: 'Masterpiece pohon dekorasi pernikahan pelaminan bergaya classic all-white royal wedding. Ranting lebat dengan juntaian wisteria putih bersih.',
+        img: '/src/assets/images/tree_white_ficus_wedding_1792371618263.jpg'
+      },
+      {
+        code: 'PHN-003',
+        name: 'Pohon Sakura Pink Jepang Mekar Lebat',
+        category: 'Pohon Sedang',
+        height: '2.2 - 2.5 Meter',
+        width: '2.0 Meter',
+        trunk: 'Batang Kayu Mahoni Alami Berkelok Estetik',
+        desc: 'Pohon sakura Jepang mekar sempurna bernuansa pastel romantis. Ideal untuk photobooth, lamaran, maupun backdrop akad nikah yang dreamy.',
+        img: '/src/assets/images/tree_sakura_pink_cherry_1792371619213.jpg'
+      },
+      {
+        code: 'PHN-004',
+        name: 'Pohon Palem Kipas & Monstera Tropis Set',
+        category: 'Tanaman Tropis',
+        height: '2.0 - 2.4 Meter',
+        width: '1.6 Meter per Cluster',
+        trunk: 'Batang Palem Serat Alami & Log Wood Pot',
+        desc: 'Rangkaian tanaman tropis rimbun dengan daun palem kipas lebar, monstera deliciosa latex tebal, dan standing pot modern.',
+        img: '/src/assets/images/tree_tropical_palm_decor_1792371619862.jpg'
+      },
+      {
+        code: 'PHN-005',
+        name: 'Pohon Zaitun Mediterania Minimalis (Olive Tree)',
+        category: 'Pohon Sedang',
+        height: '1.9 - 2.2 Meter',
+        width: '1.4 Meter',
+        trunk: 'Batang Kayu Kopi Bertekstur Eksotis',
+        desc: 'Pohon zaitun estetik dengan daun hijau keperakan khas pedesaan Italia / Mediterania untuk intimate dinner & akad nikah modern.',
+        img: '/src/assets/images/tree_tropical_palm_decor_1792371619862.jpg'
+      },
+      {
+        code: 'PHN-006',
+        name: 'Pohon Willow Dedalu Menjuntai Warm Fairy Light',
+        category: 'Pohon Karakter',
+        height: '2.6 - 2.9 Meter',
+        width: '2.3 Meter',
+        trunk: 'Batang Kayu Ukir Artistik Kuat',
+        desc: 'Pohon dahan menjuntai ala dongeng malam berhiaskan 400 titik lampu warm white lembut untuk resepsi wedding malam.',
+        img: '/src/assets/images/hero_wedding_tree_decor_1792371617920.jpg'
+      }
+    ];
+
+    let currentKat = 'SEMUA';
+
+    function renderKatalog() {
+      const q = (document.getElementById('cariPohon')?.value || '').toLowerCase().trim();
+      const grid = document.getElementById('gridPohon');
+      if (!grid) return;
+
+      const filtered = POHON_DATA.filter(p => {
+        const matchKat = currentKat === 'SEMUA' || p.category === currentKat;
+        const matchQ = !q || p.name.toLowerCase().includes(q) || p.code.toLowerCase().includes(q);
+        return matchKat && matchQ;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="col-span-full py-12 text-center text-slate-400 text-xs">Tidak ada pohon yang cocok dengan pencarian Anda.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => `
+        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-lg transition-all flex flex-col justify-between">
+          <div>
+            <div class="relative h-64 w-full overflow-hidden bg-slate-100">
+              <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80'" />
+              <span class="absolute bottom-3 left-3 px-3 py-1 bg-emerald-950/80 text-emerald-200 border border-emerald-500/40 text-[10px] font-bold rounded-lg backdrop-blur-xs">
+                Siap Sewa
+              </span>
+            </div>
+            <div class="p-5 space-y-2">
+              <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                <span class="font-mono font-bold text-teal-800">${p.code}</span>
+                <span>·</span>
+                <span>${p.category}</span>
+                <span>·</span>
+                <span class="text-slate-700 font-semibold">${p.height}</span>
+              </div>
+              <h3 class="font-serif font-bold text-slate-900 text-lg">${p.name}</h3>
+              <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${p.desc}</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="bukaModalReservasi('${p.code}')" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs flex items-center justify-center gap-2 transition cursor-pointer">
+              <span>Pesan / Reservasi via WhatsApp</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setKategori(kat) {
+      currentKat = kat;
+      const buttons = document.querySelectorAll('#containerKategori button');
+      buttons.forEach(b => {
+        b.className = 'px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer';
+      });
+      const activeBtn = document.getElementById('kat-' + kat);
+      if (activeBtn) activeBtn.className = 'px-4 py-2 rounded-xl text-xs font-semibold bg-teal-800 text-white shadow-xs cursor-pointer';
+      renderKatalog();
+    }
+
+    function filterPohon() {
+      renderKatalog();
+    }
+
+    function populateSelectPohon() {
+      const select = document.getElementById('resPilihPohon');
+      if (!select) return;
+      select.innerHTML = POHON_DATA.map(p => `
+        <option value="${p.code}">[${p.code}] ${p.name} (${p.height})</option>
+      `).join('');
+    }
+
+    function bukaModalReservasi(kode) {
+      populateSelectPohon();
+      if (kode) {
+        document.getElementById('resPilihPohon').value = kode;
+      }
+      const today = new Date().toISOString().slice(0, 10);
+      const tomorrow = new Date(Date.now() + 24 * 3600 * 1000).toISOString().slice(0, 10);
+      document.getElementById('resTglMulai').value = today;
+      document.getElementById('resTglSelesai').value = tomorrow;
+      document.getElementById('modalReservasi').classList.remove('hidden');
+    }
+
+    function tutupModalReservasi() {
+      document.getElementById('modalReservasi').classList.add('hidden');
+    }
+
+    function kirimReservasiWhatsApp(e) {
+      e.preventDefault();
+      const kode = document.getElementById('resPilihPohon').value;
+      const p = POHON_DATA.find(x => x.code === kode) || POHON_DATA[0];
+      const tglMulai = document.getElementById('resTglMulai').value;
+      const tglSelesai = document.getElementById('resTglSelesai').value;
+      const nama = document.getElementById('resNama').value;
+      const telp = document.getElementById('resTelp').value;
+      const venue = document.getElementById('resVenue').value;
+      const alamat = document.getElementById('resAlamat').value || venue;
+      const notes = document.getElementById('resNotes').value || 'Tidak ada catatan khusus';
+
+      const srvSetup = document.getElementById('resSrvSetup').checked;
+      const srvLight = document.getElementById('resSrvLighting').checked;
+      const srvTransport = document.getElementById('resSrvTransport').checked;
+
+      let layanan = [];
+      if (srvSetup) layanan.push('• Jasa Pasang & Bongkar Tim Teknisi Hasan Dekor');
+      if (srvLight) layanan.push('• Instalasi Spotlight LED & Fairy Light Pohon');
+      if (srvTransport) layanan.push('• Pengantaran Khusus Truk Venue');
+
+      const pesan = 
+`🌿 *RESERVASI SEWA POHON & DEKORASI*
+*HASAN DEKOR POHON*
+
+👤 *DATA PEMESAN & ACARA:*
+• *Nama / WO:* ${nama}
+• *No. WhatsApp:* ${telp}
+• *Tanggal Acara:* ${tglMulai} s/d ${tglSelesai}
+• *Nama Gedung / Venue:* ${venue}
+• *Alamat Lokasi:* ${alamat}
+
+🌳 *POHON YANG INGIN DISEWA:*
+• *[${p.code}] ${p.name}* (Tinggi: ${p.height})
+
+🛠️ *KEBUTUHAN LAYANAN:*
+${layanan.join('\n')}
+
+📝 *CATATAN ACARA:*
+${notes}
+
+Halo Admin Hasan Dekor Pohon, saya ingin menanyakan ketersediaan pohon dekorasi untuk jadwal acara di atas. Mohon konfirmasi ketersediaan unitnya. Terima kasih!`;
+
+      window.open('https://wa.me/628119500890?text=' + encodeURIComponent(pesan), '_blank');
+      tutupModalReservasi();
+    }
+
+    // Inisialisasi saat dimuat
+    document.addEventListener('DOMContentLoaded', () => {
+      renderKatalog();
+    });
+  </script>
+</body>
+</html>

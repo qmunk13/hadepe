@@ -1,0 +1,16 @@
+{
+  "name": "Kalender Interaktif Nusantara",
+  "short_name": "Kalender Nusantara",
+  "description": "Kalender Interaktif Nusantara (1582 - 9999) dengan penanggalan Masehi, Hijriyah, Pasaran Jawa, Weton, Hisab Sulamun Nayyirain, Arah Kiblat, dan Jadwal Sholat.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#b45309",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
