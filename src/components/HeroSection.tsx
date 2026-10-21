@@ -19,7 +19,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ settings, onExploreCat
           <div className="lg:col-span-6 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 border border-teal-200/70 text-teal-800 text-xs font-semibold rounded-lg">
               <Sparkles className="w-3.5 h-3.5 text-teal-600" />
-              <span>Showcase Koleksi Pohon Dekorasi Wedding 2026</span>
+              <span>Showcase Koleksi Pohon Dekorasi Wedding</span>
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl lg:text-[3.25rem] font-bold text-slate-900 tracking-tight leading-[1.15]" style={{ textWrap: 'balance' }}>
@@ -40,7 +40,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ settings, onExploreCat
               </button>
 
               <a
-                href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent('Halo Hasan Dekor Pohon, saya ingin konsultasi dan tanya sewa pohon dekorasi untuk acara saya...')}`}
+                href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent('Halo HD-Pohon, saya ingin konsultasi dan tanya sewa pohon dekorasi untuk acara saya...')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer active:scale-[0.98]"
@@ -72,7 +72,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ settings, onExploreCat
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200/70 bg-slate-900 group">
               <img
                 src="https://lh3.googleusercontent.com/d/1I5ZJamph3pNLJbwkad2zIclY3BiAsrhQ"
-                alt="Dekorasi pohon artifisial pelaminan Hasan Dekor"
+                alt="Dekorasi pohon artifisial pelaminan HD-Pohon"
                 referrerPolicy="no-referrer"
                 className="w-full h-[360px] sm:h-[440px] object-cover group-hover:scale-105 transition-transform duration-700"
               />

@@ -128,7 +128,7 @@ export const InvoicePrintModal: React.FC<InvoicePrintModalProps> = ({ order, set
               Layanan Penunjang Acara:
             </span>
             <ul className="space-y-1 text-slate-600 text-[11px]">
-              {order.services.includeSetup && <li>✓ Jasa Pasang & Bongkar Tim Teknisi Hasan Dekor</li>}
+              {order.services.includeSetup && <li>✓ Jasa Pasang & Bongkar Tim Teknisi HD-Pohon</li>}
               {order.services.includeLighting && <li>✓ Instalasi Spotlight LED & Fairy Lights Pohon</li>}
               {order.services.includeTransport && <li>✓ Transportasi Antar-Jemput Truk Khusus Venue</li>}
               {!order.services.includeSetup && !order.services.includeLighting && !order.services.includeTransport && (
@@ -153,7 +153,7 @@ export const InvoicePrintModal: React.FC<InvoicePrintModalProps> = ({ order, set
             </div>
 
             <div>
-              <div className="text-slate-500 mb-14">Pengelola Hasan Dekor Pohon:</div>
+              <div className="text-slate-500 mb-14">Pengelola HD-Pohon:</div>
               <div className="font-bold border-t border-slate-400 pt-1 w-44 mx-auto">
                 ( Hasan Syahputra )
               </div>

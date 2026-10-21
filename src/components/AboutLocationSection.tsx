@@ -12,7 +12,7 @@ export const AboutLocationSection: React.FC<AboutLocationSectionProps> = ({ sett
       name: 'Rian Pradana',
       role: 'Owner Mahkota Wedding Organizer',
       event: 'Pernikahan di The Royal Ambarrukmo',
-      comment: 'Pohon beringin putih dan maple dari Hasan Dekor selalu jadi primadona klien kami. Batang kayunya alami, dedaunannya rimbun bersih tanpa rontokan serbuk di karpet hotel. Timnya tepat waktu saat loading dock!'
+      comment: 'Pohon beringin putih dan maple dari HD-selalu jadi primadona klien kami. Batang kayunya alami, dedaunannya rimbun bersih tanpa rontokan serbuk di karpet hotel. Timnya tepat waktu saat loading dock!'
     },
     {
       name: 'Siti Nurhaliza',
@@ -83,7 +83,7 @@ export const AboutLocationSection: React.FC<AboutLocationSectionProps> = ({ sett
                 Workshop & Showroom Fisik
               </div>
               <h3 className="font-serif font-bold text-2xl text-slate-900">
-                Kunjungi Galeri Pohon Hasan Dekor
+                Kunjungi Galeri Pohon HD-Pohon
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
                 Anda dapat melihat langsung koleksi pohon artifisial, memilih variasi dahan dan jenis daun, atau berdiskusi langsung mengenai konsep pelaminan impian Anda bersama tim dekorator kami.
@@ -141,7 +141,7 @@ export const AboutLocationSection: React.FC<AboutLocationSectionProps> = ({ sett
           <div className="lg:col-span-5 bg-slate-50 rounded-2xl p-6 border border-slate-200/80 space-y-4">
             <div className="flex items-center gap-2 font-bold text-slate-900 text-xs">
               <Sparkles className="w-4 h-4 text-teal-700" />
-              <span>Komitmen Kualitas Hasan Dekor</span>
+              <span>Komitmen Kualitas HD-Pohon</span>
             </div>
 
             <div className="space-y-3 text-xs text-slate-600 leading-relaxed">

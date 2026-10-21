@@ -142,7 +142,7 @@ export const ImageUploadField: React.FC<ImageUploadFieldProps> = ({
             }}
             className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold"
           >
-            <option value="">-- Pilih dari Koleksi Hasan Dekor --</option>
+            <option value="">-- Pilih dari Koleksi HD-Pohon --</option>
             {presets.map(p => (
               <option key={p.url} value={p.url}>{p.label}</option>
             ))}

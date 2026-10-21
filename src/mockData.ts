@@ -170,11 +170,11 @@ export const INITIAL_USERS: UserAccount[] = [
   {
     id: 'usr-admin',
     username: 'admin',
-    namaLengkap: 'Administrator Hasan Dekor',
+    namaLengkap: 'Administrator HD-Pohon',
     role: 'ADMIN',
     status: 'AKTIF',
     noHp: '08119500890',
-    email: 'hasandekorpohon@gmail.com',
+    email: 'hdpohon@gmail.com',
     updatedAt: new Date().toISOString()
   },
   {

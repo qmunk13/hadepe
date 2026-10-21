@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   BarChart3, 
   TreePine, 
   Flower2, 
   Package, 
-  MapPin, 
   Printer, 
   RotateCcw, 
   AlertTriangle,
-  Warehouse 
+  Warehouse,
+  Search,
+  Filter
 } from 'lucide-react';
 import { Barang, PohonKatalog } from '../types';
-import { formatNumberIndo } from '../utils/formatters';
+import { toLusinPcs, formatLusinPcs } from './DatabaseBarangView';
+import { formatRupiah } from '../utils/formatters';
 
 interface RekapValuasiViewProps {
   pohonList: PohonKatalog[];
@@ -24,245 +26,245 @@ export const RekapValuasiView: React.FC<RekapValuasiViewProps> = ({
   barangList,
   onRefresh
 }) => {
-  let totalPohonUnit = 0;
-  let pohonTersedia = 0;
-  let pohonDisewa = 0;
-  const rekapPohonKat: { [kat: string]: { varian: number; unit: number; tersedia: number; disewa: number } } = {};
-  pohonList.forEach(p => {
-    totalPohonUnit += (p.stokTotal || 0);
-    pohonTersedia += (p.stokTersedia || 0);
-    pohonDisewa += (p.stokDisewa || 0);
-    if (!rekapPohonKat[p.kategori]) {
-      rekapPohonKat[p.kategori] = { varian: 0, unit: 0, tersedia: 0, disewa: 0 };
-    }
-    rekapPohonKat[p.kategori].varian++;
-    rekapPohonKat[p.kategori].unit += (p.stokTotal || 0);
-    rekapPohonKat[p.kategori].tersedia += (p.stokTersedia || 0);
-    rekapPohonKat[p.kategori].disewa += (p.stokDisewa || 0);
-  });
+  const [periode, setPeriode] = useState<'bulan' | 'global' | 'tahun' | 'manual'>('bulan');
+  const [tanggalMulai, setTanggalMulai] = useState('');
+  const [tanggalSelesai, setTanggalSelesai] = useState('');
+  const [filterKategori, setFilterKategori] = useState('SEMUA');
+  const [filterJenis, setFilterJenis] = useState('SEMUA');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  let totalBarangFisik = 0;
-  let barangTersedia = 0;
-  let barangDisewa = 0;
-  let lowStockCount = 0;
-  const rekapBarangKat: { [kat: string]: { jenisCount: number; totalFisik: number; tersedia: number; disewa: number } } = {};
-  const rekapRak: { [rak: string]: { itemCount: number; totalQty: number } } = {};
-  barangList.forEach(b => {
-    totalBarangFisik += b.stokTotal;
-    barangTersedia += b.stokTersedia;
-    barangDisewa += b.stokDisewa;
-    if (b.stokTersedia <= 10) lowStockCount++;
-    if (!rekapBarangKat[b.kategori]) {
-      rekapBarangKat[b.kategori] = { jenisCount: 0, totalFisik: 0, tersedia: 0, disewa: 0 };
-    }
-    rekapBarangKat[b.kategori].jenisCount++;
-    rekapBarangKat[b.kategori].totalFisik += b.stokTotal;
-    rekapBarangKat[b.kategori].tersedia += b.stokTersedia;
-    rekapBarangKat[b.kategori].disewa += b.stokDisewa;
+  // Categories & Jenis options
+  const categories = useMemo(() => {
+    const raw = Array.from(new Set(barangList.map(b => b.kategori).filter(Boolean)));
+    return ['SEMUA', ...raw];
+  }, [barangList]);
 
-    const rakName = b.lokasiRak || 'Gudang Utama / Belum Diplot';
-    if (!rekapRak[rakName]) {
-      rekapRak[rakName] = { itemCount: 0, totalQty: 0 };
-    }
-    rekapRak[rakName].itemCount++;
-    rekapRak[rakName].totalQty += b.stokTotal;
-  });
+  const jenisList = useMemo(() => {
+    const raw = Array.from(new Set(barangList.map(b => b.jenis).filter(Boolean)));
+    return ['SEMUA', ...raw];
+  }, [barangList]);
+
+  // Filtered barang list
+  const filteredBarang = useMemo(() => {
+    return barangList.filter(b => {
+      const matchCat = filterKategori === 'SEMUA' || b.kategori === filterKategori;
+      const matchJenis = filterJenis === 'SEMUA' || b.jenis === filterJenis;
+      const q = searchQuery.trim().toLowerCase();
+      const matchSearch = !q || b.kode.toLowerCase().includes(q) || b.nama.toLowerCase().includes(q);
+      return matchCat && matchJenis && matchSearch;
+    });
+  }, [barangList, filterKategori, filterJenis, searchQuery]);
+
+  // Calculate summary metrics
+  const totalSKU = filteredBarang.length;
+  const totalStokFisik = filteredBarang.reduce((sum, b) => sum + Number(b.stokTotal || 0), 0);
+  const totalTersedia = filteredBarang.reduce((sum, b) => sum + Number(b.stokTersedia || 0), 0);
+  const totalDisewa = filteredBarang.reduce((sum, b) => sum + Number(b.stokDisewa || 0), 0);
+  
+  // Asumsi harga satuan default Rp 25.000 jika harga belum terisi untuk estimasi valuasi aset
+  const totalValuasi = filteredBarang.reduce((sum, b) => {
+    const harga = Number(b.hargaSatuan || 25000);
+    return sum + (b.stokTotal * harga);
+  }, 0);
+
+  const lpFisik = toLusinPcs(totalStokFisik);
+  const lpTersedia = toLusinPcs(totalTersedia);
+  const lpDisewa = toLusinPcs(totalDisewa);
 
   return (
     <div className="space-y-6">
       
       {/* Header Bar */}
-      <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-        <div className="flex items-center gap-2.5">
-          <span className="p-2.5 rounded-2xl bg-teal-50 text-teal-700 shadow-2xs">
-            <BarChart3 className="w-6 h-6" />
-          </span>
-          <div>
-            <h2 className="text-lg font-serif font-bold text-slate-900">Rekap Stok Akhir & Valuasi Aset Gudang</h2>
-            <p className="text-xs text-slate-500">Laporan komprehensif audit fisik inventaris pohon artifisial, material bunga, properti, dan utilisasi rak gudang.</p>
-          </div>
+      <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col xl:flex-row xl:items-end justify-between gap-4">
+        <div>
+          <div className="text-xs uppercase tracking-wider text-teal-700 font-bold">Audit Inventaris & Keuangan</div>
+          <h2 className="font-serif font-bold text-slate-900 text-xl sm:text-2xl mt-0.5">
+            📈 Rekap Stok Akhir & Valuasi Aset
+          </h2>
+          <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">
+            Perhitungan stok menggunakan basis Pcs dan dikonversi otomatis ke Lusin + Pcs (1 Lusin = 12 Pcs) untuk akurasi audit fisik dan valuasi nilai aset.
+          </p>
         </div>
-        <div className="flex items-center gap-2 self-start md:self-auto no-print">
-          <button
-            onClick={onRefresh}
-            className="px-3.5 py-2 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs rounded-xl shadow-2xs transition cursor-pointer flex items-center gap-1.5"
+
+        <div className="flex flex-wrap items-center gap-2">
+          <select 
+            value={periode} 
+            onChange={(e) => setPeriode(e.target.value as any)}
+            className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Segarkan Data</span>
-          </button>
+            <option value="bulan">Bulan Ini</option>
+            <option value="global">Semua Periode (Global)</option>
+            <option value="tahun">Tahun Ini</option>
+            <option value="manual">Manual (Rentang Tanggal)</option>
+          </select>
+
+          {periode === 'manual' && (
+            <div className="flex items-center gap-1.5">
+              <input 
+                type="date" 
+                value={tanggalMulai}
+                onChange={(e) => setTanggalMulai(e.target.value)}
+                className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs"
+              />
+              <span className="text-xs text-slate-400">-</span>
+              <input 
+                type="date" 
+                value={tanggalSelesai}
+                onChange={(e) => setTanggalSelesai(e.target.value)}
+                className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs"
+              />
+            </div>
+          )}
+
           <button
             onClick={() => window.print()}
-            className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold text-xs rounded-xl shadow-xs transition cursor-pointer flex items-center gap-1.5"
+            className="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
           >
-            <Printer className="w-4 h-4" />
-            <span>Cetak / PDF Rekap</span>
+            <Printer className="w-3.5 h-3.5" />
+            <span>🖨️ Cetak Laporan</span>
           </button>
         </div>
       </div>
 
-      {/* Ringkasan Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-800">Pohon Artifisial</span>
-            <TreePine className="w-5 h-5 text-teal-600" />
-          </div>
-          <div className="text-2xl font-serif font-bold text-slate-900">
-            {formatNumberIndo(totalPohonUnit)} <span className="text-xs font-sans font-medium text-slate-500">Unit ({pohonList.length} varian)</span>
-          </div>
-          <div className="mt-3 flex items-center gap-2 text-[11px]">
-            <span className="px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-800 font-bold">
-              {pohonTersedia} Ready
-            </span>
-            <span className="px-2 py-0.5 rounded-lg bg-amber-50 text-amber-800 font-bold">
-              {pohonDisewa} Disewa
-            </span>
-          </div>
+      {/* 5 Metrik Utama Rekap Valuasi */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-1">
+          <div className="text-[10px] uppercase font-bold text-slate-400">Total Item / SKU</div>
+          <div className="text-2xl font-black text-slate-900">{totalSKU}</div>
+          <div className="text-[11px] text-teal-700 font-semibold">{pohonList.length} Pohon + {barangList.length} Barang</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-800">Barang Non-Pohon</span>
-            <Flower2 className="w-5 h-5 text-teal-600" />
-          </div>
-          <div className="text-2xl font-serif font-bold text-slate-900">
-            {formatNumberIndo(totalBarangFisik)} <span className="text-xs font-sans font-medium text-slate-500">Fisik ({barangList.length} SKU)</span>
-          </div>
-          <div className="mt-3 flex items-center gap-2 text-[11px]">
-            <span className="px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-800 font-bold">
-              {formatNumberIndo(barangTersedia)} Ready
-            </span>
-            <span className="px-2 py-0.5 rounded-lg bg-amber-50 text-amber-800 font-bold">
-              {formatNumberIndo(barangDisewa)} Disewa
-            </span>
-          </div>
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-1">
+          <div className="text-[10px] uppercase font-bold text-slate-400">Total Stok Fisik</div>
+          <div className="text-2xl font-black text-slate-900">{totalStokFisik.toLocaleString('id-ID')}</div>
+          <div className="text-[11px] text-slate-500 font-bold">{lpFisik.lusin} Lusin + {lpFisik.pcs} Pcs</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-800">Tingkat Utilisasi</span>
-            <Package className="w-5 h-5 text-teal-600" />
-          </div>
-          <div className="text-2xl font-serif font-bold text-slate-900">
-            {totalBarangFisik > 0 ? ((barangDisewa / totalBarangFisik) * 100).toFixed(1) : '0'}%
-          </div>
-          <p className="text-[11px] text-slate-400 mt-3">
-            Rasio stok barang yang sedang aktif tersewa di lapangan saat ini.
-          </p>
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-1">
+          <div className="text-[10px] uppercase font-bold text-emerald-700">Stok Siap Sewa (Ready)</div>
+          <div className="text-2xl font-black text-emerald-700">{totalTersedia.toLocaleString('id-ID')}</div>
+          <div className="text-[11px] text-emerald-600 font-bold">{lpTersedia.lusin} Lusin + {lpTersedia.pcs} Pcs</div>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-800">Peringatan Stok</span>
-            <AlertTriangle className={`w-5 h-5 ${lowStockCount > 0 ? 'text-amber-500' : 'text-slate-400'}`} />
-          </div>
-          <div className="text-2xl font-serif font-bold text-slate-900">
-            {lowStockCount} <span className="text-xs font-sans font-medium text-slate-500">SKU Menipis</span>
-          </div>
-          <p className="text-[11px] text-slate-400 mt-3">
-            Barang dengan stok tersedia di bawah 10 unit perlu reorder supplier.
-          </p>
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-1">
+          <div className="text-[10px] uppercase font-bold text-amber-700">Sedang Disewa (Keluar)</div>
+          <div className="text-2xl font-black text-amber-700">{totalDisewa.toLocaleString('id-ID')}</div>
+          <div className="text-[11px] text-amber-600 font-bold">{lpDisewa.lusin} Lusin + {lpDisewa.pcs} Pcs</div>
+        </div>
+
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-1">
+          <div className="text-[10px] uppercase font-bold text-teal-800">Estimasi Valuasi Aset</div>
+          <div className="text-xl sm:text-2xl font-black text-teal-800">{formatRupiah(totalValuasi)}</div>
+          <div className="text-[11px] text-slate-400">Total inventaris gudang</div>
         </div>
       </div>
 
-      {/* Grid Dua Kolom: Rekap Per Kategori Pohon & Barang */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-          <div className="p-4 bg-slate-50/80 border-b border-slate-200 flex items-center justify-between">
-            <h3 className="font-serif font-bold text-slate-900 text-sm flex items-center gap-2">
-              <TreePine className="w-4 h-4 text-teal-700" />
-              <span>Rekap Pohon Artifisial Per Kategori</span>
-            </h3>
-            <span className="text-xs font-bold text-teal-800">{pohonList.length} Varian</span>
+      {/* Filter Row: Kategori, Jenis & Search */}
+      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-3 items-center justify-between">
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+          <div className="flex items-center gap-1.5 text-xs text-slate-500 font-bold">
+            <Filter className="w-3.5 h-3.5 text-slate-400" />
+            <span>Kategori:</span>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100">
-                <tr>
-                  <th className="px-4 py-2.5">Kategori Pohon</th>
-                  <th className="px-4 py-2.5 text-center">Varian</th>
-                  <th className="px-4 py-2.5 text-center">Total Unit</th>
-                  <th className="px-4 py-2.5 text-center">Tersedia</th>
-                  <th className="px-4 py-2.5 text-center">Disewa</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 font-medium">
-                {Object.entries(rekapPohonKat).map(([kat, val]) => (
-                  <tr key={kat} className="hover:bg-teal-50/30">
-                    <td className="px-4 py-2.5 font-bold text-slate-900">{kat}</td>
-                    <td className="px-4 py-2.5 text-center font-mono text-slate-600">{val.varian}</td>
-                    <td className="px-4 py-2.5 text-center font-bold text-slate-800">{val.unit}</td>
-                    <td className="px-4 py-2.5 text-center text-emerald-700 font-bold">{val.tersedia}</td>
-                    <td className="px-4 py-2.5 text-center text-amber-700 font-bold">{val.disewa}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <select
+            value={filterKategori}
+            onChange={(e) => setFilterKategori(e.target.value)}
+            className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold"
+          >
+            {categories.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+
+          <div className="flex items-center gap-1.5 text-xs text-slate-500 font-bold">
+            <span>Jenis:</span>
           </div>
+          <select
+            value={filterJenis}
+            onChange={(e) => setFilterJenis(e.target.value)}
+            className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold"
+          >
+            {jenisList.map(j => <option key={j} value={j}>{j}</option>)}
+          </select>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-          <div className="p-4 bg-slate-50/80 border-b border-slate-200 flex items-center justify-between">
-            <h3 className="font-serif font-bold text-slate-900 text-sm flex items-center gap-2">
-              <Flower2 className="w-4 h-4 text-teal-700" />
-              <span>Rekap Barang Gudang Per Kategori</span>
-            </h3>
-            <span className="text-xs font-bold text-teal-800">{barangList.length} SKU</span>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100">
-                <tr>
-                  <th className="px-4 py-2.5">Kategori Barang</th>
-                  <th className="px-4 py-2.5 text-center">Jumlah SKU</th>
-                  <th className="px-4 py-2.5 text-center">Total Fisik</th>
-                  <th className="px-4 py-2.5 text-center">Tersedia</th>
-                  <th className="px-4 py-2.5 text-center">Disewa</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 font-medium">
-                {Object.entries(rekapBarangKat).map(([kat, val]) => (
-                  <tr key={kat} className="hover:bg-teal-50/30">
-                    <td className="px-4 py-2.5 font-bold text-slate-900">{kat}</td>
-                    <td className="px-4 py-2.5 text-center font-mono text-slate-600">{val.jenisCount}</td>
-                    <td className="px-4 py-2.5 text-center font-bold text-slate-800">{formatNumberIndo(val.totalFisik)}</td>
-                    <td className="px-4 py-2.5 text-center text-emerald-700 font-bold">{formatNumberIndo(val.tersedia)}</td>
-                    <td className="px-4 py-2.5 text-center text-amber-700 font-bold">{formatNumberIndo(val.disewa)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <div className="relative w-full md:w-64">
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            placeholder="Cari kode / nama..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-teal-700"
+          />
         </div>
       </div>
 
-      {/* Audit Lokasi Rak */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-        <div className="p-4 bg-slate-50/80 border-b border-slate-200 flex items-center justify-between">
-          <h3 className="font-serif font-bold text-slate-900 text-sm flex items-center gap-2">
-            <Warehouse className="w-4 h-4 text-teal-700" />
-            <span>Audit Lokasi Rak & Posisi Fisik Gudang</span>
-          </h3>
-          <span className="text-xs text-slate-500">{Object.keys(rekapRak).length} Lokasi Rak Terpetakan</span>
-        </div>
-        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {Object.entries(rekapRak).map(([rak, val]) => (
-            <div key={rak} className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
-              <div className="min-w-0 pr-2">
-                <div className="text-xs font-bold text-slate-800 flex items-center gap-1.5 truncate">
-                  <MapPin className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-                  <span className="truncate">{rak}</span>
-                </div>
-                <div className="text-[10px] text-slate-500 mt-0.5">
-                  Menyimpan <span className="font-semibold text-slate-700">{val.itemCount} macam barang</span>
-                </div>
-              </div>
-              <div className="text-right shrink-0">
-                <div className="text-xs font-bold text-teal-800">{formatNumberIndo(val.totalQty)}</div>
-                <div className="text-[9px] text-slate-400">Total Unit</div>
-              </div>
-            </div>
-          ))}
+      {/* Tabel Audit Rekap Valuasi */}
+      <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs min-w-[950px]">
+            <thead className="bg-slate-900 text-white text-[10px] uppercase font-semibold">
+              <tr>
+                <th className="p-3">Kode</th>
+                <th className="p-3">Jenis / Nama Barang</th>
+                <th className="p-3">Kategori</th>
+                <th className="p-3 text-right">Stok Fisik Total</th>
+                <th className="p-3 text-right text-emerald-400">Stok Tersedia</th>
+                <th className="p-3 text-right text-amber-400">Sedang Disewa</th>
+                <th className="p-3 text-right">Nilai / Satuan</th>
+                <th className="p-3 text-right">Subtotal Valuasi</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 font-medium">
+              {filteredBarang.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="p-8 text-center text-slate-400 text-xs">
+                    Tidak ada barang yang cocok dengan filter yang dipilih.
+                  </td>
+                </tr>
+              ) : (
+                filteredBarang.map((b) => {
+                  const harga = Number(b.hargaSatuan || 25000);
+                  const subValuasi = b.stokTotal * harga;
+                  const lpTot = toLusinPcs(b.stokTotal);
+                  const lpTers = toLusinPcs(b.stokTersedia);
+                  const lpDis = toLusinPcs(b.stokDisewa);
+
+                  return (
+                    <tr key={b.kode} className="hover:bg-slate-50 transition">
+                      <td className="p-3 font-mono font-bold text-teal-800">{b.kode}</td>
+                      <td className="p-3">
+                        <div className="font-bold text-slate-900">{b.nama}</div>
+                        <div className="text-[10px] text-slate-400 font-normal">{b.jenis || '-'} · Rak: {b.lokasiRak || '-'}</div>
+                      </td>
+                      <td className="p-3">
+                        <span className="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-semibold">
+                          {b.kategori}
+                        </span>
+                      </td>
+                      <td className="p-3 text-right font-bold text-slate-800">
+                        <div>{lpTot.lusin} L + {lpTot.pcs} P</div>
+                        <div className="text-[9px] text-slate-400 font-normal">({b.stokTotal} {b.satuan})</div>
+                      </td>
+                      <td className="p-3 text-right font-bold text-emerald-700">
+                        <div>{lpTers.lusin} L + {lpTers.pcs} P</div>
+                        <div className="text-[9px] text-emerald-600 font-normal">({b.stokTersedia} {b.satuan})</div>
+                      </td>
+                      <td className="p-3 text-right font-bold text-amber-700">
+                        <div>{lpDis.lusin} L + {lpDis.pcs} P</div>
+                        <div className="text-[9px] text-amber-600 font-normal">({b.stokDisewa} {b.satuan})</div>
+                      </td>
+                      <td className="p-3 text-right text-slate-600 font-medium">
+                        {formatRupiah(harga)}
+                      </td>
+                      <td className="p-3 text-right font-black text-slate-900">
+                        {formatRupiah(subValuasi)}
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
 

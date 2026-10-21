@@ -55,7 +55,7 @@ export const CatalogSection: React.FC<CatalogSectionProps> = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <div className="text-xs uppercase tracking-widest text-teal-800 font-bold mb-1">
-              Koleksi Eksklusif Hasan Dekor
+              Koleksi Eksklusif HD-Pohon
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-slate-900 tracking-tight">
               Katalog Pohon Artifisial & Tanaman Dekorasi

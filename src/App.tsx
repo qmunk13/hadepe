@@ -8,7 +8,6 @@ import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { CatalogSection } from './components/CatalogSection';
 import { ProductDetailModal } from './components/ProductDetailModal';
-import { HowToOrderSection } from './components/HowToOrderSection';
 import { AboutLocationSection } from './components/AboutLocationSection';
 import { ReservationModal } from './components/ReservationModal';
 import { AdminPortal } from './components/AdminPortal';
@@ -66,7 +65,17 @@ export default function App() {
   const [settings, setSettings] = useState<StoreSettings>(() => {
     try {
       const saved = localStorage.getItem('hasan_settings_v2');
-      return saved ? JSON.parse(saved) : INITIAL_STORE_SETTINGS;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.storeName === 'Hasan Dekor Pohon' || parsed.storeName === 'Hasan Dekor') {
+          parsed.storeName = 'HD-Pohon';
+          try {
+            localStorage.setItem('hasan_settings_v2', JSON.stringify(parsed));
+          } catch {}
+        }
+        return { ...INITIAL_STORE_SETTINGS, ...parsed };
+      }
+      return INITIAL_STORE_SETTINGS;
     } catch {
       return INITIAL_STORE_SETTINGS;
     }
@@ -221,9 +230,6 @@ export default function App() {
             onRefresh={syncLatestDataFromSheets}
           />
 
-          {/* How to Order & FAQs */}
-          <HowToOrderSection settings={settings} />
-
           {/* About, Location & Testimonials (No Bank Account) */}
           <AboutLocationSection settings={settings} />
 
@@ -245,7 +251,6 @@ export default function App() {
 
               <div className="flex flex-wrap items-center justify-center gap-5 text-slate-300">
                 <a href="#katalog" className="hover:text-white transition">Katalog Pohon</a>
-                <a href="#cara-sewa" className="hover:text-white transition">Cara Reservasi</a>
                 <a href="#tentang" className="hover:text-white transition">Kontak & Workshop</a>
                 <button
                   onClick={() => setShowAdminLoginModal(true)}
@@ -353,7 +358,7 @@ export default function App() {
                   className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-teal-700 focus:bg-white"
                 />
                 <span className="text-[10px] text-slate-400 mt-1 block">
-                 Hasan Dekor Pohon
+                 HD-Pohon
                 </span>
               </div>
 
@@ -390,7 +395,7 @@ export default function App() {
           className="fixed bottom-6 right-6 z-30 flex items-center gap-2 group"
         >
           <a
-            href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent('Halo Admin Hasan Dekor Pohon, saya ingin tanya ketersediaan sewa pohon dekorasi untuk acara...')}`}
+            href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent('Halo Admin HD-Pohon, saya ingin tanya ketersediaan sewa pohon dekorasi untuk acara...')}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full shadow-xl hover:shadow-2xl transition-all cursor-pointer font-bold text-xs"

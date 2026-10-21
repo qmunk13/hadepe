@@ -83,7 +83,7 @@ export const TambahPohonModal: React.FC<TambahPohonModalProps> = ({
             </span>
             <div>
               <h3 className="font-serif font-bold text-base">Tambah Pohon Artifisial Baru</h3>
-              <p className="text-xs text-teal-200">Menambahkan varian pohon baru ke katalog dan gudang Hasan Dekor</p>
+              <p className="text-xs text-teal-200">Menambahkan varian pohon baru ke katalog dan gudang HD-Pohon</p>
             </div>
           </div>
           <button

@@ -51,7 +51,7 @@ export function generateWhatsAppOrderUrl(order: BookingOrder, settings: StoreSet
 
   const rawMessage = 
 `🌿 *RESERVASI SEWA POHON & DEKORASI*
-*HASAN DEKOR POHON*
+*HD-Pohon*
 No. Reservasi: *#${order.orderNumber}*
 Tanggal Pengajuan: ${formatDateIndo(order.createdAt)}
 

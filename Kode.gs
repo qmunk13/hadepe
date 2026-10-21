@@ -1,6 +1,6 @@
 /**
  * =========================================================================
- * HASAN DEKOR POHON - SISTEM MANAJEMEN STOK & PENYEWAAN DEKORASI
+ * HD Pohon - SISTEM MANAJEMEN STOK & PENYEWAAN DEKORASI
  * Backend Google Apps Script (GAS) v5.0 (LENGKAP BESERTA MASTER DATA & CRUD)
  * =========================================================================
  * 
@@ -114,11 +114,11 @@ function setupDatabase() {
     ];
     shPohon.getRange(2, 1, samplePohon.length, samplePohon[0].length).setValues(samplePohon);
   }
-
   // 2. MASTER_BARANG (Barang Bukan Pohon)
+  // Kode Barang | Kategori | Jenis | Nama Barang | Stok Total | Stok Tersedia | Stok Disewa | Satuan | Foto | Lokasi Rak / Gudang | Keterangan | UpdatedAt
   let shMaster = ss.getSheetByName(SHEET_MASTER_BARANG) || ss.insertSheet(SHEET_MASTER_BARANG);
   ensureSheetHeaders_(shMaster, [
-    'Kode Barang', 'Kategori', 'Jenis', 'Nama Barang', 'Stok Total', 'Stok Tersedia', 'Stok Disewa', 'Satuan', 'Foto', 'Lokasi Rak / Gudang', 'Keterangan', 'UpdatedAt'
+    'Kode Barang', 'Kategori', 'Jenis', 'Nama Barang', 'Stok Total', 'Stok Tersedia', 'Stok Disewa', 'Satuan', 'Foto', 'Lokasi Rak / Gudang', 'Keterangan', 'UpdatedAt', 'Harga Satuan'
   ]);
 
   if (shMaster.getLastRow() < 2) {
@@ -142,16 +142,19 @@ function setupDatabase() {
 
   if (shMasterData.getLastRow() < 2) {
     const sampleMD = [
+      // Kategori Pohon
       ['MD-01', 'KATEGORI_POHON', 'Pohon Besar', 'Tinggi > 2.5 Meter untuk center pelaminan', new Date()],
       ['MD-02', 'KATEGORI_POHON', 'Pohon Sedang', 'Tinggi 1.8 - 2.5 Meter untuk lorong & photobooth', new Date()],
       ['MD-03', 'KATEGORI_POHON', 'Pohon Karakter', 'Pohon tema rustic / fantasi / willow lampu', new Date()],
       ['MD-04', 'KATEGORI_POHON', 'Tanaman Tropis', 'Palem, monstera raksasa, bambu', new Date()],
       ['MD-05', 'KATEGORI_POHON', 'Bonsai Artifisial', 'Pohon kerdil meja VIP & akad', new Date()],
+      // Kategori Barang
       ['MD-11', 'KATEGORI_BARANG', 'Bunga', 'Bunga tiruan latex & sutra', new Date()],
       ['MD-12', 'KATEGORI_BARANG', 'Daun', 'Dedaunan hijau, rayung, dan daun kering', new Date()],
       ['MD-13', 'KATEGORI_BARANG', 'Properti', 'Standing flower, pilar, backdrop, arch', new Date()],
       ['MD-14', 'KATEGORI_BARANG', 'Aksesoris', 'Lampu, lilin, vas keramik, kain draping', new Date()],
       ['MD-15', 'KATEGORI_BARANG', 'Lainnya', 'Perlengkapan dekorasi pendukung', new Date()],
+      // Jenis Barang
       ['MD-21', 'JENIS_BARANG', 'Bunga Mawar', 'Mawar latex, kain, beludru', new Date()],
       ['MD-22', 'JENIS_BARANG', 'Bunga Hydrangea', 'Hydrangea rimbun background', new Date()],
       ['MD-23', 'JENIS_BARANG', 'Bunga Peony', 'Peony blossom pastel & mewah', new Date()],
@@ -161,6 +164,7 @@ function setupDatabase() {
       ['MD-27', 'JENIS_BARANG', 'Standing Flower Besi', 'Standing gold minimalis', new Date()],
       ['MD-28', 'JENIS_BARANG', 'Vas & Pot Keramik', 'Vas keramik silinder & marmer', new Date()],
       ['MD-29', 'JENIS_BARANG', 'Lampu & Fairy Light', 'Lampu gantung edison & LED strip', new Date()],
+      // Satuan
       ['MD-31', 'SATUAN', 'Tangkai', 'Untuk bunga & daun tangkai', new Date()],
       ['MD-32', 'SATUAN', 'Ikat', 'Untuk baby breath, rayung kering', new Date()],
       ['MD-33', 'SATUAN', 'Lembar', 'Untuk daun satuan', new Date()],
@@ -169,6 +173,7 @@ function setupDatabase() {
       ['MD-36', 'SATUAN', 'Box', 'Kotak aksesoris', new Date()],
       ['MD-37', 'SATUAN', 'Roll', 'Kain draping & kabel', new Date()],
       ['MD-38', 'SATUAN', 'Lusin', '12 tangkai', new Date()],
+      // Lokasi Rak
       ['MD-41', 'LOKASI_RAK', 'Rak A1 - Box Bunga Mawar', 'Lantai 1 Sayap Kiri', new Date()],
       ['MD-42', 'LOKASI_RAK', 'Rak A2 - Box Hydrangea & Peony', 'Lantai 1 Sayap Kiri', new Date()],
       ['MD-43', 'LOKASI_RAK', 'Rak A3 - Bunga Anggrek Gantung', 'Lantai 1 Rak Gantung', new Date()],
@@ -215,7 +220,7 @@ function setupDatabase() {
   ]);
   if (shUsers.getLastRow() < 2) {
     const sampleUsers = [
-      ['USR-01', 'admin', 'Administrator Hasan Dekor', 'ADMIN', hashPassword_('admin123'), '08119500890', 'AKTIF', new Date()],
+      ['USR-01', 'admin', 'Administrator Hasan Dekor', 'ADMIN', hashPassword_('admin123'), '081234567890', 'AKTIF', new Date()],
       ['USR-02', 'kasir', 'Staff Kasir Hasan Dekor', 'STAFF', hashPassword_('kasir123'), '081398765432', 'AKTIF', new Date()],
       ['USR-03', 'gudang', 'Koordinator Gudang & Aset', 'STAFF', hashPassword_('123456'), '081567890123', 'AKTIF', new Date()]
     ];
@@ -246,7 +251,7 @@ function setupDatabase() {
   let shLog = ss.getSheetByName(SHEET_LOG) || ss.insertSheet(SHEET_LOG);
   ensureSheetHeaders_(shLog, ['Waktu', 'User', 'Aksi', 'Detail']);
 
-  logActivity_('SETUP_DATABASE', 'SYSTEM', 'Setup Database Hasan Dekor Pohon v5.0 Berhasil. Seluruh 10 sheet & header siap.');
+  logActivity_('SETUP_DATABASE', 'SYSTEM', 'Setup Database HD Pohon v5.0 Berhasil. Seluruh 10 sheet & header siap.');
   return { success: true, message: 'Setup Database Berhasil! Seluruh 10 sheet dan header telah dibuat rapi dan terhubung ke Spreadsheet.' };
 }
 
@@ -260,7 +265,7 @@ function logActivity_(aksi, user, detail) {
 
 function onOpen() {
   SpreadsheetApp.getUi()
-    .createMenu('🌿 Hasan Dekor Pohon')
+    .createMenu('🌿 HD Pohon')
     .addItem('⚙️ Setup / Perbaiki Seluruh Sheet & Header', 'setupDatabase')
     .addSeparator()
     .addItem('📊 Cek Status Integrasi Google Drive', 'alertDriveConfig_')
@@ -269,26 +274,18 @@ function onOpen() {
 
 function alertDriveConfig_() {
   SpreadsheetApp.getUi().alert(
-    'Hasan Dekor Pohon Integrasi Drive',
+    'HD Pohon Integrasi Drive',
     'Spreadsheet DB: ' + SPREADSHEET_ID + '\nFolder Foto Pohon: ' + FOLDER_ID_POHON + '\nFolder Foto Barang: ' + FOLDER_ID_BARANG,
     SpreadsheetApp.getUi().ButtonSet.OK
   );
 }
 
 function doGet(e) {
-  try {
-    return HtmlService.createTemplateFromFile('index')
-      .evaluate()
-      .setTitle('Hasan Dekor Pohon - Portal Publik & Sistem Manajemen Gudang')
-      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-      .addMetaTag('viewport', 'width=device-width, initial-scale=1.0');
-  } catch(err) {
-    return HtmlService.createTemplateFromFile('Index')
-      .evaluate()
-      .setTitle('Hasan Dekor Pohon - Portal Publik & Sistem Manajemen Gudang')
-      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-      .addMetaTag('viewport', 'width=device-width, initial-scale=1.0');
-  }
+  return HtmlService.createTemplateFromFile('Index')
+    .evaluate()
+    .setTitle('HD Pohon - Katalog & Manajemen Stok')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1.0');
 }
 
 /**
@@ -396,7 +393,22 @@ function doPost(e) {
 
       // Operasional Sewa & Transaksi
       case 'prosesSewaBarang':
-        result = prosesSewaBarang(payload);
+        result = prosesKeluarBarang(payload);
+        break;
+      case 'prosesKeluarBarang':
+        result = prosesKeluarBarang(payload);
+        break;
+      case 'prosesPengembalianPintar':
+        result = prosesPengembalianPintar(payload);
+        break;
+      case 'prosesMasukRekondisi':
+        result = prosesMasukRekondisi(payload);
+        break;
+      case 'getBarangBelumKembali':
+        result = { success: true, data: getBarangBelumKembali() };
+        break;
+      case 'getLaporanMutasi':
+        result = getLaporanMutasi(payload);
         break;
       case 'prosesPengembalianSewa':
         result = prosesPengembalianSewa(payload);
@@ -644,8 +656,14 @@ function updatePohonKatalog(kode, payload) {
       if (payload.nama) sh.getRange(row, 2).setValue(payload.nama);
       if (payload.kategori) sh.getRange(row, 3).setValue(payload.kategori);
       if (payload.tinggi) sh.getRange(row, 4).setValue(payload.tinggi);
-      if (payload.stokTotal !== undefined) sh.getRange(row, 5).setValue(Number(payload.stokTotal));
-      if (payload.stokTersedia !== undefined) sh.getRange(row, 6).setValue(Number(payload.stokTersedia));
+      if (payload.stokTotal !== undefined) {
+        const total = Number(payload.stokTotal || 0);
+        const rented = payload.stokDisewa !== undefined ? Number(payload.stokDisewa || 0) : Number(sh.getRange(row, 7).getValue() || 0);
+        if (total < rented) return { success:false, message:'Stok Total tidak boleh lebih kecil dari stok yang sedang keluar.' };
+        sh.getRange(row, 5).setValue(total);
+        sh.getRange(row, 6).setValue(Math.max(0, total-rented));
+      }
+      if (payload.stokTersedia !== undefined && payload.stokTotal === undefined) sh.getRange(row, 6).setValue(Number(payload.stokTersedia));
       if (payload.stokDisewa !== undefined) sh.getRange(row, 7).setValue(Number(payload.stokDisewa));
       if (payload.statusKetersediaan) sh.getRange(row, 8).setValue(payload.statusKetersediaan);
       if (payload.fotoUrl) sh.getRange(row, 9).setValue(payload.fotoUrl);
@@ -684,7 +702,7 @@ function getDatabaseBarang() {
   const sh = ss.getSheetByName(SHEET_MASTER_BARANG);
   if (!sh || sh.getLastRow() < 2) return [];
 
-  const values = sh.getRange(2, 1, sh.getLastRow() - 1, 12).getValues();
+  const values = sh.getRange(2, 1, sh.getLastRow() - 1, 13).getValues();
   return values.map(r => ({
     kode: String(r[0]),
     kategori: String(r[1]),
@@ -697,7 +715,8 @@ function getDatabaseBarang() {
     fotoUrl: String(r[8] || ''),
     lokasiRak: String(r[9] || ''),
     keterangan: String(r[10] || ''),
-    updatedAt: r[11] ? new Date(r[11]).toISOString() : ''
+    updatedAt: r[11] ? new Date(r[11]).toISOString() : '',
+    hargaSatuan: Number(r[12] || 0)
   })).filter(x => x.kode);
 }
 
@@ -727,9 +746,15 @@ function tambahBarangMaster(payload) {
     foto,
     payload.lokasiRak || '',
     payload.keterangan || '',
-    new Date()
+    new Date(),
+    Number(payload.hargaSatuan || 0)
   ]);
 
+  if (payload.tanggalPembelian && payload.supplier && payload.noFaktur) {
+    const shTrans = ss.getSheetByName(SHEET_TRANSAKSI) || ss.insertSheet(SHEET_TRANSAKSI);
+    ensureSheetHeaders_(shTrans, ['ID Transaksi','Tanggal','Jenis','Kode Barang','Nama Barang','Kategori','Qty','Satuan','No Ref / Sewa','Nama Pihak','Catatan','User','CreatedAt']);
+    shTrans.appendRow(['TRX-'+Date.now(),new Date(payload.tanggalPembelian+'T00:00:00'),'MASUK_SUPPLIER',kode,payload.nama,payload.kategori||'Lainnya',stokTotal,payload.satuan||'Pcs',payload.noFaktur,payload.supplier,'Stok awal barang baru dari pembelian','ADMIN',new Date()]);
+  }
   logActivity_('TAMBAH_BARANG', 'ADMIN', 'Tambah barang ' + kode);
   return { success: true, message: 'Barang ' + payload.nama + ' berhasil disimpan.' };
 }
@@ -746,13 +771,20 @@ function updateBarangMaster(kode, payload) {
       if (payload.kategori) sh.getRange(row, 2).setValue(payload.kategori);
       if (payload.jenis) sh.getRange(row, 3).setValue(payload.jenis);
       if (payload.nama) sh.getRange(row, 4).setValue(payload.nama);
-      if (payload.stokTotal !== undefined) sh.getRange(row, 5).setValue(Number(payload.stokTotal));
-      if (payload.stokTersedia !== undefined) sh.getRange(row, 6).setValue(Number(payload.stokTersedia));
+      if (payload.stokTotal !== undefined) {
+        const total = Number(payload.stokTotal || 0);
+        const rented = payload.stokDisewa !== undefined ? Number(payload.stokDisewa || 0) : Number(sh.getRange(row, 7).getValue() || 0);
+        if (total < rented) return { success:false, message:'Stok Total tidak boleh lebih kecil dari stok yang sedang keluar.' };
+        sh.getRange(row, 5).setValue(total);
+        sh.getRange(row, 6).setValue(Math.max(0, total-rented));
+      }
+      if (payload.stokTersedia !== undefined && payload.stokTotal === undefined) sh.getRange(row, 6).setValue(Number(payload.stokTersedia));
       if (payload.stokDisewa !== undefined) sh.getRange(row, 7).setValue(Number(payload.stokDisewa));
       if (payload.satuan) sh.getRange(row, 8).setValue(payload.satuan);
       if (payload.fotoUrl) sh.getRange(row, 9).setValue(payload.fotoUrl);
       if (payload.lokasiRak !== undefined) sh.getRange(row, 10).setValue(payload.lokasiRak);
       if (payload.keterangan !== undefined) sh.getRange(row, 11).setValue(payload.keterangan);
+      if (payload.hargaSatuan !== undefined) sh.getRange(row, 13).setValue(Number(payload.hargaSatuan || 0));
       sh.getRange(row, 12).setValue(new Date());
 
       logActivity_('UPDATE_BARANG', 'ADMIN', 'Update barang ' + kode);
@@ -1101,26 +1133,240 @@ function prosesSewaBarang(payload) {
 }
 
 function prosesPengembalianSewa(payload) {
+  return prosesPengembalianPintar(payload);
+}
+
+/**
+ * KELUAR: mencatat barang keluar dan memotong stok tersedia.
+ * qty selalu disimpan dalam Pcs. Frontend boleh mengirim qtyLusin + qtyPcs.
+ */
+function prosesKeluarBarang(payload) {
+  payload = payload || {};
+  if (!String(payload.tanggalKeluar || '').trim()) throw new Error('Tanggal Keluar wajib diisi.');
+  if (!String(payload.namaPelanggan || payload.namaPihak || '').trim()) throw new Error('Pelanggan / WO wajib diisi.');
+  if (!String(payload.tanggalRencanaKembali || '').trim()) throw new Error('Rencana Kembali wajib diisi.');
+  if (new Date(payload.tanggalRencanaKembali) < new Date(payload.tanggalKeluar)) throw new Error('Rencana Kembali tidak boleh sebelum Tanggal Keluar.');
   const ss = getSpreadsheet_();
-  const shSewa = ss.getSheetByName(SHEET_SEWA);
   const shMaster = ss.getSheetByName(SHEET_MASTER_BARANG);
+  const shSewa = ss.getSheetByName(SHEET_SEWA);
+  const shItems = ss.getSheetByName(SHEET_SEWA_ITEMS);
   const shTrans = ss.getSheetByName(SHEET_TRANSAKSI);
+  if (!shMaster || !shSewa || !shItems || !shTrans) throw new Error('Sheet operasional belum lengkap. Jalankan setupDatabase().');
 
-  // Update status sewa
-  const sewaValues = shSewa.getRange(2, 1, shSewa.getLastRow() - 1, 1).getValues();
-  for (let i = 0; i < sewaValues.length; i++) {
-    if (String(sewaValues[i][0]).toUpperCase() === String(payload.noSewa).toUpperCase()) {
-      const row = i + 2;
-      shSewa.getRange(row, 4).setValue(new Date()); // Tgl Realisasi
-      shSewa.getRange(row, 10).setValue('SELESAI'); // Status Sewa
-      break;
-    }
+  const items = Array.isArray(payload.items) ? payload.items : [];
+  if (!items.length) return { success:false, message:'Belum ada barang yang dipilih.' };
+
+  const tgl = payload.tanggalKeluar ? new Date(payload.tanggalKeluar + 'T00:00:00') : new Date();
+  const noKeluar = 'KEL-' + Utilities.formatDate(tgl, 'GMT+7', 'yyyyMMdd') + '-' + Math.floor(1000 + Math.random()*9000);
+  const masterRows = shMaster.getLastRow() >= 2 ? shMaster.getRange(2,1,shMaster.getLastRow()-1,12).getValues() : [];
+
+  // Validasi semua item terlebih dahulu agar transaksi tidak setengah jalan.
+  const resolved = items.map(it => {
+    const rowIdx = masterRows.findIndex(r => String(r[0]).toUpperCase() === String(it.kode).toUpperCase());
+    if (rowIdx < 0) throw new Error('Barang dengan kode '+it.kode+' tidak ditemukan.');
+    const row = rowIdx + 2;
+    const available = Number(shMaster.getRange(row,6).getValue() || 0);
+    const qty = Number(it.qtyPcs || it.qty || 0);
+    if (qty <= 0) throw new Error('Jumlah keluar untuk '+it.kode+' harus lebih dari 0.');
+    if (qty > available) throw new Error('Stok tersedia '+it.kode+' hanya '+available+' Pcs, sedangkan diminta '+qty+' Pcs.');
+    return {it, row, qty, available, nama:shMaster.getRange(row,4).getValue(), kategori:shMaster.getRange(row,2).getValue(), jenis:shMaster.getRange(row,3).getValue(), satuan:shMaster.getRange(row,8).getValue()};
+  });
+
+  shSewa.appendRow([
+    noKeluar, tgl, payload.tanggalRencanaKembali || '', '', payload.namaPelanggan || payload.namaPihak || '', payload.noTelepon || '', payload.alamat || '',
+    resolved.length, resolved.reduce((a,x)=>a+x.qty,0), 'AKTIF', payload.user || 'ADMIN', payload.catatan || '', new Date()
+  ]);
+
+  resolved.forEach((x, idx) => {
+    const it=x.it, qty=x.qty;
+    shItems.appendRow([
+      'ITM-'+noKeluar+'-'+(idx+1), noKeluar, it.kode, x.nama, x.kategori, qty, x.satuan || 'Pcs', 0, 0, 0, 'DIKELUARKAN', 0,
+      'Keluar '+(it.qtyLusin||0)+' lusin + '+(it.qtySisaPcs||0)+' pcs = '+qty+' pcs' + (it.catatan ? ' | '+it.catatan : '')
+    ]);
+    const curAvail = Number(shMaster.getRange(x.row,6).getValue()||0);
+    const curRented = Number(shMaster.getRange(x.row,7).getValue()||0);
+    shMaster.getRange(x.row,6).setValue(Math.max(0,curAvail-qty));
+    shMaster.getRange(x.row,7).setValue(curRented+qty);
+    shMaster.getRange(x.row,12).setValue(new Date());
+    shTrans.appendRow([
+      'TRX-'+Date.now()+'-'+idx, tgl, 'KELUAR', it.kode, x.nama, x.kategori, qty, x.satuan || 'Pcs', noKeluar,
+      payload.namaPelanggan || payload.namaPihak || '', 'Keluar: '+(it.qtyLusin||0)+' lusin + '+(it.qtySisaPcs||0)+' pcs = '+qty+' pcs', payload.user || 'ADMIN', new Date()
+    ]);
+  });
+  logActivity_('KELUAR', payload.user || 'ADMIN', noKeluar+' | '+resolved.map(x=>x.it.kode+'='+x.qty+' Pcs').join(', '));
+  return {success:true, noKeluar, noSewa:noKeluar, message:'Barang berhasil dikeluarkan.', items:resolved.map(x=>({kode:x.it.kode,qty:x.qty}))};
+}
+
+/** Mengembalikan barang dari transaksi keluar, dapat parsial. */
+function prosesPengembalianPintar(payload) {
+  payload = payload || {};
+  if (!String(payload.tanggalKembali || '').trim()) throw new Error('Tanggal Kembali wajib diisi.');
+  const ss=getSpreadsheet_();
+  const shMaster=ss.getSheetByName(SHEET_MASTER_BARANG);
+  const shSewa=ss.getSheetByName(SHEET_SEWA);
+  const shItems=ss.getSheetByName(SHEET_SEWA_ITEMS);
+  const shTrans=ss.getSheetByName(SHEET_TRANSAKSI);
+  if(!shMaster||!shSewa||!shItems||!shTrans) throw new Error('Sheet operasional belum lengkap.');
+  const noSewa=String(payload.noSewa||payload.noKeluar||'').trim();
+  const items=Array.isArray(payload.items)?payload.items:[];
+  if(!noSewa||!items.length) return {success:false,message:'Nomor transaksi dan barang pengembalian wajib diisi.'};
+  const tanggal=payload.tanggalKembali?new Date(payload.tanggalKembali+'T00:00:00'):new Date();
+
+  const itemRows=shItems.getLastRow()>=2?shItems.getRange(2,1,shItems.getLastRow()-1,13).getValues():[];
+  const masterRows=shMaster.getLastRow()>=2?shMaster.getRange(2,1,shMaster.getLastRow()-1,12).getValues():[];
+  const transRows=shTrans.getLastRow()>=2?shTrans.getRange(2,1,shTrans.getLastRow()-1,13).getValues():[];
+  const hasil=[];
+
+  items.forEach((it,idx)=>{
+    let itemIdx=itemRows.findIndex(r=>String(r[1]).toUpperCase()===noSewa.toUpperCase() && String(r[2]).toUpperCase()===String(it.kode).toUpperCase());
+    let itemRow, row;
+    if(itemIdx<0){
+      const legacy=transRows.find(r=>String(r[8]||'').toUpperCase()===noSewa.toUpperCase() && String(r[3]||'').toUpperCase()===String(it.kode).toUpperCase() && (String(r[2])==='KELUAR'||String(r[2])==='KELUAR_SEWA'));
+      if(!legacy) throw new Error('Barang '+it.kode+' tidak ditemukan pada transaksi '+noSewa+'.');
+      const qtyLegacy=Number(legacy[6]||0);
+      shItems.appendRow(['ITM-'+noSewa+'-'+it.kode,noSewa,it.kode,legacy[4],legacy[5],qtyLegacy,legacy[7]||'Pcs',0,0,0,'DIKELUARKAN',0,'Migrasi otomatis dari TRANSAKSI untuk pengembalian']);
+      itemRow=shItems.getLastRow();
+      row=['ITM-'+noSewa+'-'+it.kode,noSewa,it.kode,legacy[4],legacy[5],qtyLegacy,legacy[7]||'Pcs',0,0,0,'DIKELUARKAN',0,'Migrasi otomatis'];
+    } else { itemRow=itemIdx+2; row=itemRows[itemIdx]; }
+    const qtyKeluar=Number(row[5]||0);
+    const goodLama=Number(row[7]||0), rusakLama=Number(row[8]||0), hilangLama=Number(row[9]||0);
+    const outstanding=Math.max(0,qtyKeluar-goodLama-rusakLama-hilangLama);
+    const bagus=Number(it.bagusPcs||0), rusak=Number(it.rusakPcs||0), hilang=Number(it.hilangPcs||0);
+    const totalKembali=bagus+rusak+hilang;
+    if(!String(it.catatan||'').trim()) throw new Error('Keterangan pengembalian untuk '+it.kode+' wajib diisi.');
+    if(totalKembali<=0) throw new Error('Jumlah kembali '+it.kode+' harus lebih dari 0.');
+    if(totalKembali>outstanding) throw new Error(it.kode+' masih tersisa '+outstanding+' Pcs yang belum kembali.');
+
+    const masterIdx=masterRows.findIndex(r=>String(r[0]).toUpperCase()===String(it.kode).toUpperCase());
+    if(masterIdx<0) throw new Error('Master barang '+it.kode+' tidak ditemukan.');
+    const mrow=masterIdx+2;
+    const avail=Number(shMaster.getRange(mrow,6).getValue()||0);
+    const rented=Number(shMaster.getRange(mrow,7).getValue()||0);
+    const total=Number(shMaster.getRange(mrow,5).getValue()||0);
+    const nama=shMaster.getRange(mrow,4).getValue();
+    const kat=shMaster.getRange(mrow,2).getValue();
+    const sat=shMaster.getRange(mrow,8).getValue() || 'Pcs';
+
+    shItems.getRange(itemRow,8).setValue(goodLama+bagus);
+    shItems.getRange(itemRow,9).setValue(rusakLama+rusak);
+    shItems.getRange(itemRow,10).setValue(hilangLama+hilang);
+    const selesai=(goodLama+bagus+rusakLama+rusak+hilangLama+hilang)>=qtyKeluar;
+    shItems.getRange(itemRow,11).setValue(selesai?'SELESAI':'SEBAGIAN');
+    shItems.getRange(itemRow,13).setValue('Kembali '+bagus+' Pcs | Rusak '+rusak+' Pcs | Hilang '+hilang+' Pcs'+(it.catatan?' | '+it.catatan:''));
+
+    shMaster.getRange(mrow,6).setValue(avail+bagus);
+    shMaster.getRange(mrow,7).setValue(Math.max(0,rented-totalKembali));
+    shMaster.getRange(mrow,5).setValue(Math.max(0,total-hilang));
+    shMaster.getRange(mrow,12).setValue(new Date());
+
+    if(bagus>0) shTrans.appendRow(['TRX-'+Date.now()+'-'+idx+'B',tanggal,'MASUK_KEMBALI',it.kode,nama,kat,bagus,sat,noSewa,payload.namaPihak||'','Kembali bagus '+bagus+' Pcs',payload.user||'ADMIN',new Date()]);
+    if(rusak>0) shTrans.appendRow(['TRX-'+Date.now()+'-'+idx+'R',tanggal,'RUSAK_REKONDISI',it.kode,nama,kat,rusak,sat,noSewa,payload.namaPihak||'','Rusak - masuk antrian rekondisi',payload.user||'ADMIN',new Date()]);
+    if(hilang>0) shTrans.appendRow(['TRX-'+Date.now()+'-'+idx+'H',tanggal,'HILANG',it.kode,nama,kat,hilang,sat,noSewa,payload.namaPihak||'','Hilang - stok fisik dikurangi',payload.user||'ADMIN',new Date()]);
+    hasil.push({kode:it.kode,nama,bagus,rusak,hilang,outstandingSisa:Math.max(0,outstanding-totalKembali)});
+  });
+
+  const allItems=shItems.getLastRow()>=2?shItems.getRange(2,1,shItems.getLastRow()-1,11).getValues():[];
+  const transaksiItems=allItems.filter(r=>String(r[1]).toUpperCase()===noSewa.toUpperCase());
+  const semuaSelesai=transaksiItems.length>0 && transaksiItems.every(r=>Number(r[5]||0)<=Number(r[7]||0)+Number(r[8]||0)+Number(r[9]||0));
+  const sewaRows=shSewa.getLastRow()>=2?shSewa.getRange(2,1,shSewa.getLastRow()-1,13).getValues():[];
+  for(let i=0;i<sewaRows.length;i++) if(String(sewaRows[i][0]).toUpperCase()===noSewa.toUpperCase()){
+    const sr=i+2;
+    if(semuaSelesai){ shSewa.getRange(sr,4).setValue(tanggal); shSewa.getRange(sr,10).setValue('SELESAI'); }
+    else shSewa.getRange(sr,10).setValue('SEBAGIAN');
+    break;
   }
+  logActivity_('MASUK_KEMBALI',payload.user||'ADMIN',noSewa+' | '+hasil.map(x=>x.kode+' kembali '+(x.bagus+x.rusak+x.hilang)+' Pcs').join(', '));
+  return {success:true,message:'Pengembalian berhasil dicatat.',hasil,selesai:semuaSelesai};
+}
 
-  return { success: true, message: 'Pengembalian ' + payload.noSewa + ' berhasil diproses.' };
+/** Barang rusak yang sudah diservice masuk kembali ke stok tersedia. */
+function prosesMasukRekondisi(payload){
+  const ss=getSpreadsheet_(); const shMaster=ss.getSheetByName(SHEET_MASTER_BARANG); const shTrans=ss.getSheetByName(SHEET_TRANSAKSI);
+  const kode=String(payload.kode||'').trim(); const qty=Number(payload.qtyPcs||payload.qty||0);
+  if(!kode||qty<=0) return {success:false,message:'Kode dan jumlah rekondisi wajib diisi.'};
+  const master=shMaster.getLastRow()>=2?shMaster.getRange(2,1,shMaster.getLastRow()-1,12).getValues():[];
+  const idx=master.findIndex(r=>String(r[0]).toUpperCase()===kode.toUpperCase());
+  if(idx<0) return {success:false,message:'Barang tidak ditemukan.'};
+  const row=idx+2; const nama=shMaster.getRange(row,4).getValue(); const kat=shMaster.getRange(row,2).getValue(); const sat=shMaster.getRange(row,8).getValue()||'Pcs';
+  const trans=shTrans.getLastRow()>=2?shTrans.getRange(2,1,shTrans.getLastRow()-1,13).getValues():[];
+  const rusak=trans.filter(r=>String(r[2])==='RUSAK_REKONDISI'&&String(r[3]).toUpperCase()===kode.toUpperCase()).reduce((a,r)=>a+Number(r[6]||0),0);
+  const service=trans.filter(r=>String(r[2])==='MASUK_REKONDISI'&&String(r[3]).toUpperCase()===kode.toUpperCase()).reduce((a,r)=>a+Number(r[6]||0),0);
+  const antrian=Math.max(0,rusak-service);
+  if(qty>antrian) return {success:false,message:'Jumlah rekondisi melebihi antrian rusak. Antrian saat ini '+antrian+' Pcs.'};
+  const avail=Number(shMaster.getRange(row,6).getValue()||0); const total=Number(shMaster.getRange(row,5).getValue()||0);
+  shMaster.getRange(row,6).setValue(avail+qty); shMaster.getRange(row,5).setValue(total); shMaster.getRange(row,12).setValue(new Date());
+  const tgl=payload.tanggalMasuk?new Date(payload.tanggalMasuk+'T00:00:00'):new Date();
+  shTrans.appendRow(['TRX-'+Date.now(),tgl,'MASUK_REKONDISI',kode,nama,kat,qty,sat,payload.noRef||'',payload.supplier||'Workshop Service',payload.catatan || 'Barang selesai diservice / rekondisi',payload.user||'ADMIN',new Date()]);
+  logActivity_('MASUK_REKONDISI',payload.user||'ADMIN',kode+' +'+qty+' Pcs');
+  return {success:true,message:nama+' berhasil masuk stok kembali +'+qty+' Pcs.',qty};
+}
+
+function getBarangBelumKembali(){
+  const ss=getSpreadsheet_(); const shItems=ss.getSheetByName(SHEET_SEWA_ITEMS), shSewa=ss.getSheetByName(SHEET_SEWA), shTrans=ss.getSheetByName(SHEET_TRANSAKSI);
+  const itemRows=shItems&&shItems.getLastRow()>=2?shItems.getRange(2,1,shItems.getLastRow()-1,13).getValues():[];
+  const sewaRows=shSewa&&shSewa.getLastRow()>=2?shSewa.getRange(2,1,shSewa.getLastRow()-1,13).getValues():[];
+  const transRows=shTrans&&shTrans.getLastRow()>=2?shTrans.getRange(2,1,shTrans.getLastRow()-1,13).getValues():[];
+  const map={}; sewaRows.forEach(r=>map[String(r[0])]={tanggal:r[1],namaPihak:r[4],status:r[9],tglRencana:r[2]});
+  const out=[]; const seen={};
+  itemRows.forEach(r=>{const qty=Number(r[5]||0),good=Number(r[7]||0),rusak=Number(r[8]||0),hilang=Number(r[9]||0),sisa=Math.max(0,qty-good-rusak-hilang); if(sisa<=0)return; const s=map[String(r[1])]||{}; const key=String(r[1])+'|'+String(r[2]); seen[key]=true; out.push({id:String(r[0]),noSewa:String(r[1]),kode:String(r[2]),namaBarang:String(r[3]),kategori:String(r[4]),qtyKeluar:qty,qtyKembaliBagus:good,qtyRusak:rusak,qtyHilang:hilang,sisaBelumKembali:sisa,tanggalKeluar:s.tanggal?new Date(s.tanggal).toISOString():'',tanggalRencanaKembali:s.tglRencana?s.tglRencana:'',namaPihak:String(s.namaPihak||''),status:String(s.status||'')});});
+  // Fallback untuk transaksi KELUAR lama yang belum mempunyai PENYEWAAN_ITEMS.
+  transRows.forEach(r=>{if(String(r[2])!=='KELUAR')return; const noRef=String(r[8]||''); const kode=String(r[3]||''); if(!noRef||seen[noRef+'|'+kode])return; const qtyOut=Number(r[6]||0); const returned=transRows.filter(x=>String(x[8]||'')===noRef&&String(x[3]||'')===kode&&String(x[2])==='MASUK_KEMBALI').reduce((a,x)=>a+Number(x[6]||0),0); const bad=transRows.filter(x=>String(x[8]||'')===noRef&&String(x[3]||'')===kode&&String(x[2])==='RUSAK_REKONDISI').reduce((a,x)=>a+Number(x[6]||0),0); const lost=transRows.filter(x=>String(x[8]||'')===noRef&&String(x[3]||'')===kode&&String(x[2])==='HILANG').reduce((a,x)=>a+Number(x[6]||0),0); const sisa=Math.max(0,qtyOut-returned-bad-lost); if(sisa>0)out.push({id:'LEGACY-'+noRef+'-'+kode,noSewa:noRef,kode,namaBarang:String(r[4]||''),kategori:String(r[5]||''),qtyKeluar:qtyOut,qtyKembaliBagus:returned,qtyRusak:bad,qtyHilang:lost,sisaBelumKembali:sisa,tanggalKeluar:r[1]?new Date(r[1]).toISOString():'',tanggalRencanaKembali:'',namaPihak:String(r[9]||''),status:'AKTIF'});});
+  return out;
+}
+
+function getAntrianRekondisi(){
+  const ss=getSpreadsheet_(), sh=ss.getSheetByName(SHEET_TRANSAKSI), master=ss.getSheetByName(SHEET_MASTER_BARANG); if(!sh||sh.getLastRow()<2)return [];
+  const rows=sh.getRange(2,1,sh.getLastRow()-1,13).getValues(), mrows=master&&master.getLastRow()>=2?master.getRange(2,1,master.getLastRow()-1,12).getValues():[]; const mm={};mrows.forEach(r=>mm[String(r[0]).toUpperCase()]={nama:r[3],kategori:r[1],jenis:r[2]}); const map={};
+  rows.forEach(r=>{const kode=String(r[3]),t=String(r[2]);if(!map[kode])map[kode]={kode,nama:mm[kode.toUpperCase()]?.nama||String(r[4]||''),kategori:mm[kode.toUpperCase()]?.kategori||String(r[5]||''),jenis:mm[kode.toUpperCase()]?.jenis||'',rusak:0,service:0};if(t==='RUSAK_REKONDISI')map[kode].rusak+=Number(r[6]||0);if(t==='MASUK_REKONDISI')map[kode].service+=Number(r[6]||0);});
+  return Object.values(map).map(x=>({...x,antrian:Math.max(0,x.rusak-x.service)})).filter(x=>x.antrian>0);
+}
+
+function _periodWindow_(payload){
+  payload=payload||{}; const mode=String(payload.periode||'global').toLowerCase(), now=new Date(); let start=null,end=new Date(now.getTime()+86400000);
+  if(mode==='minggu'){start=new Date(now);const day=start.getDay(),diff=day===0?6:day-1;start.setDate(start.getDate()-diff);start.setHours(0,0,0,0);}
+  else if(mode==='bulan') start=new Date(now.getFullYear(),now.getMonth(),1);
+  else if(mode==='tahun') start=new Date(now.getFullYear(),0,1);
+  else if(mode==='manual'){if(!payload.tanggalMulai||!payload.tanggalSelesai) throw new Error('Tanggal mulai dan selesai wajib diisi untuk periode manual.');start=new Date(payload.tanggalMulai+'T00:00:00');end=new Date(payload.tanggalSelesai+'T23:59:59');}
+  return {mode,start,end};
+}
+function _readTrans_(ss){const sh=ss.getSheetByName(SHEET_TRANSAKSI);return sh&&sh.getLastRow()>=2?sh.getRange(2,1,sh.getLastRow()-1,13).getValues():[];}
+function _availMove_(t,q){t=String(t);q=Number(q||0);if(['MASUK_SUPPLIER','MASUK_KEMBALI','MASUK_REKONDISI'].includes(t))return q;if(['KELUAR','KELUAR_SEWA'].includes(t))return -q;return 0;}
+function _totalMove_(t,q){t=String(t);q=Number(q||0);if(['MASUK_SUPPLIER','MASUK_KEMBALI','MASUK_REKONDISI'].includes(t))return q;if(['KELUAR','KELUAR_SEWA','HILANG'].includes(t))return -q;return 0;}
+function getLaporanMutasi(payload){
+  payload=payload||{};const ss=getSpreadsheet_(),rows=_readTrans_(ss),win=_periodWindow_(payload),master=ss.getSheetByName(SHEET_MASTER_BARANG),mrows=master&&master.getLastRow()>=2?master.getRange(2,1,master.getLastRow()-1,13).getValues():[];
+  const mm={};mrows.forEach(r=>mm[String(r[0]).toUpperCase()]={kategori:String(r[1]||''),jenis:String(r[2]||''),nama:String(r[3]||''),tersedia:Number(r[5]||0),total:Number(r[4]||0)});
+  const cat=String(payload.kategori||'SEMUA'),jenis=String(payload.jenisBarang||'SEMUA'),jt=String(payload.jenisTransaksi||'SEMUA');
+  const all=rows.map(r=>{const d=r[1]?new Date(r[1]):null,m=mm[String(r[3]).toUpperCase()]||{};return{id:String(r[0]),tanggal:d?d.toISOString():'',d,kode:String(r[3]),jenisTransaksi:String(r[2]),namaBarang:String(r[4]||m.nama||''),kategori:String(r[5]||m.kategori||''),jenisBarang:String(m.jenis||''),qtyPcs:Number(r[6]||0),satuan:String(r[7]||'Pcs'),noRef:String(r[8]||''),namaPihak:String(r[9]||''),catatan:String(r[10]||''),user:String(r[11]||'')};}).filter(x=>x.d);
+  const base=all.filter(x=>(cat==='SEMUA'||x.kategori===cat)&&(jenis==='SEMUA'||x.jenisBarang===jenis));
+  const periodBase=base.filter(x=>(!win.start||x.d>=win.start)&&x.d<=win.end), after=base.filter(x=>win.start&&x.d>win.end);
+  const selected=periodBase.filter(x=>jt==='SEMUA'||x.jenisTransaksi===jt);
+  const masters=mrows.filter(r=>(cat==='SEMUA'||String(r[1])===cat)&&(jenis==='SEMUA'||String(r[2])===jenis));
+  const currentAvail=masters.reduce((a,r)=>a+Number(r[5]||0),0), currentTotal=masters.reduce((a,r)=>a+Number(r[4]||0),0);
+  const endAvail=Math.max(0,currentAvail-after.reduce((a,x)=>a+_availMove_(x.jenisTransaksi,x.qtyPcs),0));
+  const endTotal=Math.max(0,currentTotal-after.reduce((a,x)=>a+_totalMove_(x.jenisTransaksi,x.qtyPcs),0));
+  const netAvail=periodBase.reduce((a,x)=>a+_availMove_(x.jenisTransaksi,x.qtyPcs),0),netTotal=periodBase.reduce((a,x)=>a+_totalMove_(x.jenisTransaksi,x.qtyPcs),0);
+  const global={stokAwal:win.start?Math.max(0,endAvail-netAvail):endAvail,tersedia:endAvail,MASUK_SUPPLIER:0,MASUK_KEMBALI:0,MASUK_REKONDISI:0,KELUAR:0,RUSAK_REKONDISI:0,HILANG:0};
+  const summaryMap={},dailyMap={};
+  selected.forEach(x=>{global[x.jenisTransaksi]=(global[x.jenisTransaksi]||0)+x.qtyPcs;const key=x.kategori+'|'+x.jenisBarang;if(!summaryMap[key])summaryMap[key]={kategori:x.kategori,jenisBarang:x.jenisBarang,masukBeli:0,masukKembali:0,masukService:0,keluar:0,rusak:0,hilang:0};const s=summaryMap[key],day=x.tanggal.slice(0,10),dk=day+'|'+key;if(!dailyMap[dk])dailyMap[dk]={tanggal:day,kategori:x.kategori,jenisBarang:x.jenisBarang,masukBeli:0,masukKembali:0,masukService:0,keluar:0,rusak:0,hilang:0};const d=dailyMap[dk];if(x.jenisTransaksi==='MASUK_SUPPLIER'){s.masukBeli+=x.qtyPcs;d.masukBeli+=x.qtyPcs}if(x.jenisTransaksi==='MASUK_KEMBALI'){s.masukKembali+=x.qtyPcs;d.masukKembali+=x.qtyPcs}if(x.jenisTransaksi==='MASUK_REKONDISI'){s.masukService+=x.qtyPcs;d.masukService+=x.qtyPcs}if(x.jenisTransaksi==='KELUAR'||x.jenisTransaksi==='KELUAR_SEWA'){s.keluar+=x.qtyPcs;d.keluar+=x.qtyPcs}if(x.jenisTransaksi==='RUSAK_REKONDISI'){s.rusak+=x.qtyPcs;d.rusak+=x.qtyPcs}if(x.jenisTransaksi==='HILANG'){s.hilang+=x.qtyPcs;d.hilang+=x.qtyPcs}});
+  return {success:true,data:selected.slice().reverse(),summary:Object.values(summaryMap),dailySummary:Object.values(dailyMap).sort((a,b)=>String(a.tanggal).localeCompare(String(b.tanggal))),global,totalAwal:win.start?Math.max(0,endTotal-netTotal):endTotal,totalAkhir:endTotal,periode:win.mode};
+}
+function getRekapStokAkhir(payload){
+  payload=payload||{};const ss=getSpreadsheet_(),shM=ss.getSheetByName(SHEET_MASTER_BARANG),trans=_readTrans_(ss);if(!shM)return {success:true,rows:[],global:{}};
+  const masters=shM.getLastRow()>=2?shM.getRange(2,1,shM.getLastRow()-1,13).getValues():[],win=_periodWindow_(payload),cat=String(payload.kategori||'SEMUA'),jenis=String(payload.jenisBarang||'SEMUA'),jt=String(payload.jenisTransaksi||'SEMUA'),by={};
+  masters.forEach(r=>{const kode=String(r[0]);if(cat!=='SEMUA'&&String(r[1])!==cat)return;if(jenis!=='SEMUA'&&String(r[2])!==jenis)return;by[kode]={kode,nama:String(r[3]),jenis:String(r[2]),kategori:String(r[1]),currentTotal:Number(r[4]||0),currentAvail:Number(r[5]||0),hargaSatuan:Number(r[12]||0),stokAwal:0,masukBeli:0,masukKembali:0,masukService:0,keluar:0,rusak:0,hilang:0,tersedia:0,stokAkhir:0};});
+  const relevant=trans.filter(r=>by[String(r[3])]);const periodAll=relevant.filter(r=>{const d=r[1]?new Date(r[1]):null;return d&&(!win.start||d>=win.start)&&d<=win.end});const period=periodAll.filter(r=>jt==='SEMUA'||String(r[2])===jt);const after=relevant.filter(r=>win.start&&r[1]&&new Date(r[1])>win.end);
+  Object.values(by).forEach(x=>{const a=after.filter(r=>String(r[3])===x.kode);x.stokAkhir=Math.max(0,x.currentTotal-a.reduce((s,r)=>s+_totalMove_(r[2],r[6]),0));x.tersedia=Math.max(0,x.currentAvail-a.reduce((s,r)=>s+_availMove_(r[2],r[6]),0));const p=periodAll.filter(r=>String(r[3])===x.kode);x.stokAwal=Math.max(0,x.stokAkhir-p.reduce((s,r)=>s+_totalMove_(r[2],r[6]),0));});
+  period.forEach(r=>{const x=by[String(r[3])],t=String(r[2]),q=Number(r[6]||0);if(t==='MASUK_SUPPLIER')x.masukBeli+=q;if(t==='MASUK_KEMBALI')x.masukKembali+=q;if(t==='MASUK_REKONDISI')x.masukService+=q;if(t==='KELUAR'||t==='KELUAR_SEWA')x.keluar+=q;if(t==='RUSAK_REKONDISI')x.rusak+=q;if(t==='HILANG')x.hilang+=q;});
+  Object.values(by).forEach(x=>x.valuasi=x.tersedia*x.hargaSatuan);const rows=Object.values(by);return {success:true,rows,global:{sku:rows.length,stokAwal:rows.reduce((a,x)=>a+x.stokAwal,0),masuk:rows.reduce((a,x)=>a+x.masukBeli+x.masukKembali+x.masukService,0),keluar:rows.reduce((a,x)=>a+x.keluar,0),tersedia:rows.reduce((a,x)=>a+x.tersedia,0),valuasi:rows.reduce((a,x)=>a+x.valuasi,0)},periode:win.mode};
 }
 
 function tambahStokSupplier(payload) {
+  payload = payload || {};
+  if (!String(payload.kode || '').trim()) throw new Error('Kode/nama barang wajib dipilih.');
+  if (Number(payload.qty || 0) <= 0) throw new Error('Jumlah tambahan wajib lebih dari 0.');
+  if (!String(payload.tanggalPembelian || '').trim()) throw new Error('Tanggal pembelian wajib diisi.');
+  if (!String(payload.supplier || '').trim()) throw new Error('Supplier wajib dipilih.');
+  if (!String(payload.noFaktur || '').trim()) throw new Error('No. Faktur wajib diisi.');
   const ss = getSpreadsheet_();
   const shMaster = ss.getSheetByName(SHEET_MASTER_BARANG);
   const shTrans = ss.getSheetByName(SHEET_TRANSAKSI);
@@ -1131,8 +1377,10 @@ function tambahStokSupplier(payload) {
       const row = i + 2;
       const curTotal = Number(shMaster.getRange(row, 5).getValue() || 0);
       const curTersedia = Number(shMaster.getRange(row, 6).getValue() || 0);
-      shMaster.getRange(row, 5).setValue(curTotal + Number(payload.qty));
-      shMaster.getRange(row, 6).setValue(curTersedia + Number(payload.qty));
+      const qtyTambah = Number(payload.qty || 0);
+      if (qtyTambah <= 0) return { success: false, message: 'Jumlah tambahan harus lebih dari 0.' };
+      shMaster.getRange(row, 5).setValue(curTotal + qtyTambah);
+      shMaster.getRange(row, 6).setValue(curTersedia + qtyTambah);
       shMaster.getRange(row, 12).setValue(new Date());
 
       const nama = shMaster.getRange(row, 4).getValue();
@@ -1141,12 +1389,12 @@ function tambahStokSupplier(payload) {
 
       shTrans.appendRow([
         'TRX-' + Date.now(),
-        new Date(),
+        payload.tanggalPembelian ? new Date(payload.tanggalPembelian + 'T00:00:00') : new Date(),
         'MASUK_SUPPLIER',
         payload.kode,
         nama,
         kat,
-        payload.qty,
+        qtyTambah,
         sat,
         payload.noFaktur || '',
         payload.supplier || 'Supplier',

@@ -310,7 +310,14 @@ export class AppDataService {
     const raw = localStorage.getItem(KEY_SETTINGS);
     if (raw) {
       try {
-        return JSON.parse(raw);
+        const parsed = JSON.parse(raw);
+        if (parsed.storeName === 'Hasan Dekor Pohon' || parsed.storeName === 'Hasan Dekor') {
+          parsed.storeName = 'HD-Pohon';
+          try {
+            localStorage.setItem(KEY_SETTINGS, JSON.stringify(parsed));
+          } catch {}
+        }
+        return { ...INITIAL_STORE_SETTINGS, ...parsed };
       } catch (e) {}
     }
     return INITIAL_STORE_SETTINGS;
@@ -329,6 +336,9 @@ export class AppDataService {
       const res = await this.callGasApi('getPengaturanKontak');
       if (res && res.success && res.data && res.data.whatsappNumber) {
         const current = this.getStoreSettings();
+        if (res.data.storeName === 'Hasan Dekor Pohon' || res.data.storeName === 'Hasan Dekor') {
+          res.data.storeName = 'HD-Pohon';
+        }
         const merged: StoreSettings = {
           ...current,
           ...res.data
@@ -1142,7 +1152,7 @@ export class AppDataService {
     if ((uClean === 'admin' && (password === 'admin123' || password === 'admin' || password === 'hasan123'))) {
       return {
         success: true,
-        user: { id: 'usr-admin', username: 'admin', namaLengkap: 'Administrator Hasan Dekor', role: 'ADMIN' },
+        user: { id: 'usr-admin', username: 'admin', namaLengkap: 'Administrator HD-Pohon', role: 'ADMIN' },
         message: 'Login berhasil sebagai Administrator.'
       };
     }

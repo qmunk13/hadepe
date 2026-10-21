@@ -50,3 +50,11 @@ export function getCurrentTimeString(): string {
 export function formatNumberIndo(num: number): string {
   return new Intl.NumberFormat('id-ID').format(num || 0);
 }
+
+export function formatRupiah(amount: number): string {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0
+  }).format(amount || 0);
+}

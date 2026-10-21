@@ -13,6 +13,7 @@ import {
 import { Transaksi, Penyewaan } from '../types';
 import { Pagination } from './Pagination';
 import { formatDateTimeIndo, formatDateIndo } from '../utils/formatters';
+import { toLusinPcs } from './DatabaseBarangView';
 
 interface RiwayatTransaksiViewProps {
   transaksiList: Transaksi[];
@@ -239,7 +240,8 @@ export const RiwayatTransaksiView: React.FC<RiwayatTransaksiViewProps> = ({
                         <div className="font-mono text-[10px] text-teal-700">{t.kode} &bull; {t.kategori}</div>
                       </td>
                       <td className="py-3 px-4 text-center font-bold text-slate-900">
-                        {t.qty} <span className="text-[10px] font-normal text-slate-500">{t.satuan}</span>
+                        <div>{toLusinPcs(t.qty).lusin} L + {toLusinPcs(t.qty).pcs} P</div>
+                        <div className="text-[10px] font-normal text-slate-400">({t.qty} {t.satuan || 'Pcs'})</div>
                       </td>
                       <td className="py-3 px-4 font-mono text-[11px] text-slate-600">
                         {t.noRef || '-'}

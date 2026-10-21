@@ -64,7 +64,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <span>Manajemen Stok & Portal Katalog Dekorasi</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-serif font-bold tracking-tight">
-            Dashboard Hasan Dekor Pohon
+            Dashboard HD-Pohon
           </h2>
           <div className="flex flex-wrap gap-2.5 mt-6">
             <button

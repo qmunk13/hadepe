@@ -65,7 +65,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
     return users.find(u => u.username === 'admin') || {
       id: 'usr-admin',
       username: 'admin',
-      namaLengkap: 'Administrator Hasan Dekor',
+      namaLengkap: 'Administrator HD-Pohon',
       role: 'ADMIN',
       status: 'AKTIF'
     };
@@ -410,7 +410,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row font-sans text-slate-800 w-full max-w-full overflow-x-hidden">
       
-      {/* 1. Sidebar Navigasi Internal Hasan Dekor */}
+      {/* 1. Sidebar Navigasi Internal HD-*/}
       <Sidebar
         currentTab={currentTab}
         setTab={setCurrentTab}
@@ -477,8 +477,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
         {currentTab === 'kembali' && (
           <PengembalianView
             penyewaanList={penyewaanList}
+            barangList={barangList}
             initialNoSewa={kembaliInitialNoSewa}
             onClearInitialNoSewa={() => setKembaliInitialNoSewa(undefined)}
+            onOpenTambahStok={() => setIsTambahStokOpen(true)}
             onSubmitReturn={handleSubmitReturn}
           />
         )}
@@ -609,7 +611,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                 Keluar dari Pengelola?
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Anda akan keluar dari sesi pengelola internal dan kembali ke tampilan portal publik katalog Hasan Dekor.
+                Anda akan keluar dari sesi pengelola internal dan kembali ke tampilan portal publik katalog HD-Pohon.
               </p>
             </div>
 

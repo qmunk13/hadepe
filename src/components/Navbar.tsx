@@ -48,9 +48,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             <a href="#katalog" className="hover:text-teal-800 transition-colors whitespace-nowrap shrink-0">
               Katalog Pohon
             </a>
-            <a href="#cara-sewa" className="hover:text-teal-800 transition-colors whitespace-nowrap shrink-0">
-              Cara Pemesanan
-            </a>
             <a href="#tentang" className="hover:text-teal-800 transition-colors whitespace-nowrap shrink-0">
               Tentang & Lokasi
             </a>
@@ -118,13 +115,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="block py-2 text-sm font-semibold text-slate-700 hover:text-teal-800"
               >
                 Katalog Pohon
-              </a>
-              <a
-                href="#cara-sewa"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 text-sm font-semibold text-slate-700 hover:text-teal-800"
-              >
-                Cara Pemesanan
               </a>
               <a
                 href="#tentang"

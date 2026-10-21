@@ -474,7 +474,7 @@ export const KatalogView: React.FC<KatalogViewProps> = ({
                         </div>
 
                         <p className="text-xs text-slate-500 mt-2.5 line-clamp-2 leading-relaxed">
-                          {item.keterangan || 'Dekorasi pohon artifisial berkualitas prima Hasan Dekor'}
+                          {item.keterangan || 'Dekorasi pohon artifisial berkualitas prima HD-Pohon'}
                         </p>
                       </div>
 
@@ -496,7 +496,7 @@ export const KatalogView: React.FC<KatalogViewProps> = ({
                           </button>
                         </div>
                         <a
-                          href={`https://wa.me/628119500890?text=${encodeURIComponent(`Halo Hasan Dekor, saya tertarik untuk sewa pohon: ${item.nama} (${item.kode})`)}`}
+                          href={`https://wa.me/628119500890?text=${encodeURIComponent(`Halo HD-Pohon, saya tertarik untuk sewa pohon: ${item.nama} (${item.kode})`)}`}
                           target="_blank"
                           rel="noreferrer"
                           className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs rounded-xl border border-emerald-200 transition flex items-center gap-1"
@@ -557,7 +557,7 @@ export const KatalogView: React.FC<KatalogViewProps> = ({
               />
             </div>
             <div className="p-3 bg-slate-50 border-t border-slate-200 text-xs text-slate-500 text-center">
-              Foto Pohon Artifisial Hasan Dekor
+              Foto Pohon Artifisial HD-Pohon
             </div>
           </div>
         </div>

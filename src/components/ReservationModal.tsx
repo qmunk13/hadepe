@@ -134,7 +134,7 @@ export const ReservationModal: React.FC<ReservationModalProps> = ({
                 Formulir Pemesanan & Reservasi Pohon
               </h3>
               <p className="text-xs text-slate-500">
-                Terhubung langsung ke WhatsApp resmi Hasan Dekor
+                Terhubung langsung ke WhatsApp resmi HD-Pohon
               </p>
             </div>
           </div>
@@ -322,7 +322,7 @@ export const ReservationModal: React.FC<ReservationModalProps> = ({
                     onChange={(e) => setServices({ ...services, includeSetup: e.target.checked })}
                     className="rounded text-teal-800 focus:ring-teal-700 w-3.5 h-3.5"
                   />
-                  <span>Jasa Pasang & Bongkar Tim Hasan Dekor</span>
+                  <span>Jasa Pasang & Bongkar Tim HD-Pohon</span>
                 </label>
 
                 <label className="flex items-center gap-2 cursor-pointer">
@@ -374,10 +374,10 @@ export const ReservationModal: React.FC<ReservationModalProps> = ({
               className="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md flex items-center justify-center gap-2 transition cursor-pointer"
             >
               <MessageCircle className="w-5 h-5" />
-              <span>Kirim Reservasi ke WhatsApp Resmi Hasan Dekor &rarr;</span>
+              <span>Kirim Reservasi ke WhatsApp Resmi HD-Pohon &rarr;</span>
             </button>
             <p className="text-[10px] text-slate-400 text-center mt-2">
-              Pesan reservasi langsung terformat dan terhubung ke admin WhatsApp Hasan Dekor untuk verifikasi ketersediaan.
+              Pesan reservasi langsung terformat dan terhubung ke admin WhatsApp HD-Pohon untuk verifikasi ketersediaan.
             </p>
           </div>
 

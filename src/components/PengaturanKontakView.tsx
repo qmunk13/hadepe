@@ -105,7 +105,7 @@ export const PengaturanKontakView: React.FC<PengaturanKontakViewProps> = ({
     }
   };
 
-  const testWaLink = `https://wa.me/${cleanWaNumber(formData.whatsappNumber)}?text=${encodeURIComponent('Halo Hasan Dekor Pohon, ini adalah tes nomor WhatsApp baru dari sistem...')}`;
+  const testWaLink = `https://wa.me/${cleanWaNumber(formData.whatsappNumber)}?text=${encodeURIComponent('Halo HD-Pohon, ini adalah tes nomor WhatsApp baru dari sistem...')}`;
 
   return (
     <div className="space-y-6">

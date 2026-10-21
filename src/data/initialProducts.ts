@@ -235,7 +235,7 @@ export const INITIAL_PRODUCTS: ProductItem[] = [
 ];
 
 export const INITIAL_STORE_SETTINGS: StoreSettings = {
-  storeName: 'Hasan Dekor Pohon',
+  storeName: 'HD-Pohon',
   tagline: 'Penyewaan Pohon Artifisial Raksasa & Tanaman Dekorasi Pelaminan',
   whatsappNumber: '628119500890',
   displayPhone: '+62 811-9500-890',

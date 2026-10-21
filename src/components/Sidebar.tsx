@@ -61,22 +61,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // Menu Operasional
   const operasionalItems: NavItem[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'dashboard', label: 'Dashboard Metrik', icon: LayoutDashboard },
     { id: 'katalog', label: 'Katalog Pohon', icon: TreePine },
-    { id: 'database', label: 'Database', icon: Flower2 },
+    { id: 'database', label: 'Database Barang', icon: Flower2 },
     { id: 'sewa', label: 'Keluar', icon: ShoppingCart },
-    { id: 'kembali', label: 'Kembali', icon: RotateCcw },
-    { id: 'riwayat', label: 'Laporan', icon: FileText }
+    { id: 'kembali', label: 'Masuk', icon: RotateCcw },
+    { id: 'riwayat', label: 'Laporan & Mutasi', icon: FileText }
   ];
 
   // Menu Master Data, Mitra & Rekap
   const masterMitraItems: NavItem[] = [
     { id: 'master_data', label: 'Master Data', icon: Database },
-    { id: 'rekap_valuasi', label: 'Rekap', icon: BarChart3 },
-    { id: 'pelanggan', label: 'Pelanggan', icon: Users2 },
+    { id: 'rekap_valuasi', label: 'Rekap Stok & Valuasi', icon: BarChart3 },
+    { id: 'pelanggan', label: 'Pelanggan / WO', icon: Users2 },
     { id: 'supplier', label: 'Supplier & Vendor', icon: Truck },
-    { id: 'users', label: 'Users', icon: ShieldCheck },
-    { id: 'pengaturan', label: 'Pengaturan', icon: MessageSquare }
+    { id: 'users', label: 'Users Pengguna', icon: ShieldCheck },
+    { id: 'pengaturan', label: 'Pengaturan Kontak', icon: MessageSquare }
   ];
 
   const handleNavClick = (tabId: string) => {
@@ -105,7 +105,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               🌿
             </div>
             <div className="min-w-0">
-              <div className="font-serif font-bold text-slate-900 text-xs sm:text-sm leading-tight truncate">Hasan Dekor</div>
+              <div className="font-serif font-bold text-slate-900 text-xs sm:text-sm leading-tight truncate">HD-Pohon</div>
               <div className="text-[10px] text-teal-700 font-semibold tracking-wider uppercase truncate">
                 {activeItem?.label || 'Gudang & Sewa'}
               </div>
@@ -151,7 +151,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div 
             className="flex items-center gap-3 cursor-pointer min-w-0" 
             onClick={() => handleNavClick('dashboard')}
-            title="Hasan Dekor Pohon"
+            title="HD-Pohon"
           >
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-teal-600 to-emerald-700 text-white flex items-center justify-center shadow-md shadow-teal-600/20 shrink-0 font-bold text-lg">
               🌿
@@ -159,7 +159,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {!isCollapsed && (
               <div className="min-w-0">
                 <div className="font-serif font-bold text-slate-900 text-sm leading-tight truncate">
-                  Hasan Dekor
+                  HD-Pohon
                 </div>
                 <div className="text-[10px] font-semibold tracking-wider text-teal-700 uppercase truncate">
                   Gudang & Rental
